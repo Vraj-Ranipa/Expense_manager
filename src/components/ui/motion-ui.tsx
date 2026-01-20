@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -41,7 +41,7 @@ export const SlideIn = ({
     delay?: number;
     direction?: "left" | "right" | "up" | "down";
 }) => {
-    const variants = {
+    const variants: Variants = {
         hidden: {
             x: direction === "left" ? -20 : direction === "right" ? 20 : 0,
             y: direction === "up" ? 20 : direction === "down" ? -20 : 0,
