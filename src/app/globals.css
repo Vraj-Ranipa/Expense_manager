@@ -245,6 +245,6 @@
   input,
   textarea,
   select {
-    @apply transition-all duration-300 focus:border-primary/50 focus:shadow-[0_0_10px_rgba(168, 85, 247, 0.1)];
+    @apply transition-all duration-300 focus:border-primary/50;
   }
 }
