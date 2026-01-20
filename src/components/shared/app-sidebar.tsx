@@ -130,7 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarContent className="gap-4 px-2">
                 {navItems.map((group) => (
                     <SidebarGroup key={group.group}>
-                        <SidebarGroupLabel className="text-primary/80 font-bold uppercase tracking-wider text-[10px]">{group.group}</SidebarGroupLabel>
+                        <SidebarGroupLabel className="text-primary/80 font-bold uppercase tracking-wider text-[10px] mb-2 px-4">{group.group}</SidebarGroupLabel>
                         <SidebarMenu>
                             {group.items.map((item) => {
                                 const isActive = item.url === "/"
@@ -147,9 +147,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         <SidebarMenuButton
                                                             tooltip={item.title}
                                                             isActive={isActive}
-                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/20 data-[active=true]:text-primary data-[active=true]:shadow-[0_0_10px_rgba(168,85,247,0.3)] transition-all duration-200 ease-in-out"
+                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
                                                         >
-                                                            {item.icon && <item.icon />}
+                                                            {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
                                                             <span>{item.title}</span>
                                                             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                                         </SidebarMenuButton>
@@ -182,9 +182,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                     <SidebarMenuButton
                                                         tooltip={item.title}
                                                         isActive={isActive}
-                                                        className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/20 data-[active=true]:text-primary data-[active=true]:shadow-[0_0_10px_rgba(168,85,247,0.3)] transition-all duration-200 ease-in-out rounded-lg"
+                                                        className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
                                                     >
-                                                        {item.icon && <item.icon />}
+                                                        {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
                                                         <span className="font-medium">{item.title}</span>
                                                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground/50" />
                                                     </SidebarMenuButton>
@@ -221,10 +221,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             asChild
                                             tooltip={item.title}
                                             isActive={isActive}
-                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/20 data-[active=true]:text-primary data-[active=true]:shadow-[0_0_10px_rgba(168,85,247,0.3)] transition-all duration-200 ease-in-out rounded-lg"
+                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
                                         >
                                             <Link href={item.url}>
-                                                {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]" : ""} />}
+                                                {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
                                                 <span className="font-medium">{item.title}</span>
                                             </Link>
                                         </SidebarMenuButton>
@@ -237,16 +237,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarContent>
             <SidebarFooter>
                 <div className="p-2">
-                    <div className="rounded-xl border border-white/5 bg-white/5 p-4 backdrop-blur-md">
-                        <div className="flex items-center gap-3">
-                            <Avatar className="h-9 w-9 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.2)]">
+                    <div className="group rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-white/0 p-4 backdrop-blur-md transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="flex items-center gap-3 relative z-10">
+                            <Avatar className="h-9 w-9 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.2)] group-hover:border-primary/50 transition-colors">
                                 <AvatarImage src="/avatars/shadcn.jpg" alt="@shadcn" />
                                 <AvatarFallback className="rounded-lg bg-primary/20 text-primary">CN</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold text-foreground">User Name</span>
+                                <span className="truncate font-semibold text-foreground group-hover:text-primary transition-colors">User Name</span>
                                 <span className="truncate text-xs text-muted-foreground">Pro Plan</span>
                             </div>
+                            <Settings className="ml-auto size-4 text-muted-foreground group-hover:text-primary transition-colors hover:rotate-90 duration-500 cursor-pointer" />
                         </div>
                     </div>
                 </div>
