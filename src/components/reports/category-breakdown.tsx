@@ -1,7 +1,13 @@
-"use client"
+"use client";
 
-import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Pie, PieChart, ResponsiveContainer, Cell, Tooltip, Legend } from "recharts";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 
 const data = [
     { name: "Rent", value: 1200 },
@@ -9,21 +15,29 @@ const data = [
     { name: "Utilities", value: 300 },
     { name: "Entertainment", value: 400 },
     { name: "Transport", value: 200 },
-]
+];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+const COLORS = [
+    "#38bdf8", // Sky Blue
+    "#818cf8", // Indigo
+    "#c084fc", // Purple
+    "#2dd4bf", // Teal
+    "#fb7185", // Rose
+];
 
 export function CategoryBreakdown() {
     return (
-        <Card className="col-span-4">
-            <CardHeader>
-                <CardTitle>Spending by Category</CardTitle>
-                <CardDescription>
+        <div className="col-span-4 rounded-2xl border border-white/5 bg-black/40 p-6 backdrop-blur-xl transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_30px_rgba(56,189,248,0.1)]">
+            <div className="mb-6">
+                <h3 className="text-lg font-bold tracking-tight text-white">
+                    Spending by Category
+                </h3>
+                <p className="text-sm text-muted-foreground">
                     Where your money is going.
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="pl-2">
-                <ResponsiveContainer width="100%" height={300}>
+                </p>
+            </div>
+            <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                         <Pie
                             data={data}
@@ -34,28 +48,52 @@ export function CategoryBreakdown() {
                             fill="#8884d8"
                             paddingAngle={5}
                             dataKey="value"
+                            stroke="none"
                         >
                             {data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                <Cell
+                                    key={`cell-${index}`}
+                                    fill={COLORS[index % COLORS.length]}
+                                    className="transition-all duration-300 hover:opacity-80"
+                                    style={{
+                                        filter: `drop-shadow(0 0 8px ${COLORS[index % COLORS.length]}80)`,
+                                    }}
+                                />
                             ))}
                         </Pie>
-                         <Tooltip
-                             content={({ active, payload }: any) => {
-                                 if (active && payload && payload.length) {
-                                     return (
-                                         <div className="rounded-lg border bg-background p-2 shadow-sm">
-                                             <span className="font-bold text-muted-foreground">{payload[0].name}: </span>
-                                             <span className="font-bold">${payload[0].value}</span>
-                                         </div>
-                                     )
-                                 }
-                                 return null;
-                             }}
-                         />
-                        <Legend />
+                        <Tooltip
+                            content={({ active, payload }: any) => {
+                                if (active && payload && payload.length) {
+                                    return (
+                                        <div className="rounded-xl border border-white/10 bg-black/80 px-3 py-2 shadow-xl backdrop-blur-md">
+                                            <div className="flex items-center gap-2">
+                                                <div
+                                                    className="h-2 w-2 rounded-full"
+                                                    style={{ backgroundColor: payload[0].payload.fill }}
+                                                />
+                                                <span className="font-semibold text-white">
+                                                    {payload[0].name}:
+                                                </span>
+                                                <span className="font-bold text-muted-foreground">
+                                                    ${payload[0].value}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            }}
+                        />
+                        <Legend
+                            verticalAlign="middle"
+                            align="right"
+                            layout="vertical"
+                            iconType="circle"
+                            wrapperStyle={{ paddingLeft: "20px" }}
+                        />
                     </PieChart>
                 </ResponsiveContainer>
-            </CardContent>
-        </Card>
-    )
+            </div>
+        </div>
+    );
 }

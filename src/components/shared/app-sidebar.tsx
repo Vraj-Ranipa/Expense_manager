@@ -19,6 +19,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
+const MotionSidebar = motion(Sidebar as React.ComponentType<any>);
 
 import {
     Collapsible,
@@ -109,7 +111,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const { state } = useSidebar()
 
     return (
-        <Sidebar collapsible="icon" variant="floating" {...props}>
+        <MotionSidebar collapsible="icon" variant="floating" className="glass" {...props} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -147,7 +149,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         <SidebarMenuButton
                                                             tooltip={item.title}
                                                             isActive={isActive}
-                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
+                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.8)] transition-all duration-300 ease-out rounded-lg mb-1 hover:scale-105"
                                                         >
                                                             {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
                                                             <span>{item.title}</span>
@@ -221,7 +223,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             asChild
                                             tooltip={item.title}
                                             isActive={isActive}
-                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
+                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.8)] transition-all duration-300 ease-out rounded-lg mb-1 hover:scale-105"
                                         >
                                             <Link href={item.url}>
                                                 {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
@@ -254,6 +256,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
             </SidebarFooter>
             <SidebarRail />
-        </Sidebar>
+        </MotionSidebar>
     )
 }

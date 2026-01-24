@@ -1,182 +1,113 @@
-
-"use client";
-
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-    Copy, 
-    Calendar, 
-    MoreHorizontal, 
-    Briefcase,
-    Clock,
-    CheckCircle2,
-    XCircle,
-    Edit,
-    Trash,
-    ExternalLink
-} from "lucide-react";
-import { Logo } from "@/components/shared/logo";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Briefcase, MoreHorizontal, Clock, ArrowUpRight } from "lucide-react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { format } from "date-fns"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+} from "@/components/ui/dropdown-menu"
 
 export interface ProjectCardProps {
     project: {
-        ProjectID: number;
-        ProjectLogo: string | null;
-        ProjectName: string;
-        ProjectStartDate: Date | null;
-        ProjectEndDate: Date | null;
-        IsActive: boolean | null;
-        Description: string | null;
-        ProjectDetail: string | null;
+        ProjectID: number
+        ProjectName: string
+        Description: string | null
+        StartDate: Date | null
+        EndDate: Date | null
+        IsActive: boolean
+        Created: Date
     }
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
-    const isActive = project.IsActive;
-
-    const copyProjectId = () => {
-        navigator.clipboard.writeText(project.ProjectID.toString());
-    };
-
     return (
-        <Card className={cn(
-            "group relative overflow-hidden transition-all duration-300 py-0 gap-0",
-            "hover:shadow-xl hover:-translate-y-1 border",
-            isActive 
-                ? "bg-gradient-to-br from-indigo-50/50 via-white to-white dark:from-indigo-900/20 dark:via-slate-950 dark:to-slate-950" 
-                : "bg-gradient-to-br from-slate-100/50 via-white to-white dark:from-slate-800/20 dark:via-slate-950 dark:to-slate-950"
-        )}>
-            {/* Background Decorator */}
-            <div className="absolute -right-2 -bottom-6 opacity-5 dark:opacity-10 pointer-events-none transition-transform group-hover:scale-110 duration-500">
-                <Briefcase className="h-40 w-40 text-indigo-500 dark:text-indigo-400" />
-            </div>
+        <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-gray-900/50 to-black/80 p-1 transition-all duration-500 hover:border-sky-500/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.15)] hover:-translate-y-1">
+            {/* Glass Inner Container */}
+            <div className="relative h-full flex flex-col justify-between rounded-2xl bg-white/5 p-6 backdrop-blur-sm overflow-hidden">
 
-            {/* Top Bar: Badge & Actions */}
-            <div className="flex items-center justify-between px-3 pt-2 pb-0 relative z-20">
-                 <Badge 
-                    variant="secondary" 
-                    className={cn(
-                        "px-2.5 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded-full border shadow-sm",
-                        isActive
-                            ? "bg-indigo-50 text-indigo-700 border-indigo-100 dark:bg-indigo-950/30 dark:text-indigo-300 dark:border-indigo-900/30"
-                            : "bg-slate-50 text-slate-700 border-slate-100 dark:bg-slate-900/30 dark:text-slate-300 dark:border-slate-800"
-                    )}
-                >
-                    {isActive ? "Active Project" : "Archived"}
-                </Badge>
+                {/* Large Watermark Icon */}
+                <div className="absolute -bottom-6 -right-6 text-white/[0.03] transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:text-sky-500/[0.05]">
+                    <Briefcase className="h-48 w-48" strokeWidth={1} />
+                </div>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                         <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full bg-white/50 dark:bg-slate-950/50 hover:bg-white dark:hover:bg-slate-900 shadow-sm backdrop-blur-sm -mr-1">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem asChild>
-                            <Link href={`/admin/projects/${project.ProjectID}`}>
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                View Details
-                            </Link>
-                        </DropdownMenuItem>
-                         <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href={`/admin/projects/${project.ProjectID}`}>
-                                <Edit className="mr-2 h-4 w-4" />
-                                Edit Details
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
-                            <Trash className="mr-2 h-4 w-4" />
-                            Delete Project
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
-
-            <CardContent className="pt-2 pb-5 px-5 space-y-5 relative z-10">
-                 {/* Hero Section: Logo & Name */}
-                 <div className="flex items-center gap-3 sm:gap-4">
-                     <div className={cn(
-                        "p-1 rounded-2xl shadow-sm border",
-                        isActive
-                            ? "bg-gradient-to-br from-indigo-50 to-white border-indigo-100 dark:from-indigo-950/20 dark:to-slate-950 dark:border-indigo-900/30"
-                            : "bg-gradient-to-br from-slate-50 to-white border-slate-100 dark:from-slate-900/20 dark:to-slate-950 dark:border-slate-800"
-                     )}>
-                        <Logo
-                            path={project.ProjectLogo}
-                            alt={project.ProjectName}
-                            fallbackClassName={cn(
-                                "h-12 w-12 sm:h-14 sm:w-14 rounded-xl flex items-center justify-center transition-all duration-300",
-                                isActive ? "text-indigo-500" : "text-slate-500"
-                            )}
-                            fallbackIcon={<Briefcase className="h-6 w-6 sm:h-7 sm:w-7" />}
-                        />
-                    </div>
-                    
-                    <div className="space-y-1 min-w-0 flex-1">
-                        <CardTitle className="text-base sm:text-lg font-bold tracking-tight text-foreground line-clamp-1">
-                            {project.ProjectName}
-                        </CardTitle>
-                        <div className="flex items-center gap-2 text-xs">
-                             {isActive ? (
-                                <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-950/30 px-2 py-0.5 rounded-full border border-emerald-100 dark:border-emerald-900/30">
-                                    <span className="relative flex h-1.5 w-1.5">
-                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                                    </span>
-                                    In Progress
-                                </span>
-                            ) : (
-                                <span className="flex items-center gap-1.5 text-slate-500 font-medium bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700">
-                                    <XCircle className="h-3 w-3" /> Completed
-                                </span>
-                            )}
+                {/* Header Section */}
+                <div className="relative z-10 flex items-start justify-between">
+                    <div className="space-y-1">
+                        <Badge
+                            variant="secondary"
+                            className={`mb-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${project.IsActive
+                                    ? "bg-sky-500/10 text-sky-400 border border-sky-500/20 group-hover:border-sky-500/50"
+                                    : "bg-white/5 text-muted-foreground border border-white/10"
+                                }`}
+                        >
+                            {project.IsActive ? "● Active Project" : "● Completed"}
+                        </Badge>
+                        <div className="flex items-center gap-3">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/5 shadow-inner group-hover:from-sky-500/20 group-hover:to-transparent transition-colors duration-500">
+                                <Briefcase className="h-6 w-6 text-white group-hover:text-sky-400 transition-colors" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold leading-tight text-white group-hover:text-primary transition-colors">
+                                    {project.ProjectName}
+                                </h3>
+                                <p className="text-xs text-muted-foreground mt-0.5">
+                                    Client Project
+                                </p>
+                            </div>
                         </div>
                     </div>
-                 </div>
 
-                 {/* Description */}
-                 <div className="bg-white/50 dark:bg-slate-900/50 rounded-lg p-3 border border-slate-100 dark:border-slate-800 min-h-[4.5rem]">
-                    <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-white hover:bg-white/10">
+                                <MoreHorizontal className="h-5 w-5" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="bg-black/90 border-white/10 backdrop-blur-xl">
+                            <DropdownMenuItem className="focus:bg-sky-500/20 focus:text-sky-400 cursor-pointer">Edit Project</DropdownMenuItem>
+                            <DropdownMenuItem className="focus:bg-rose-500/20 focus:text-rose-400 cursor-pointer text-rose-500">Delete Project</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+
+                {/* Description - Optional */}
+                <div className="relative z-10 mt-6 min-h-[3rem]">
+                    <p className="text-sm text-muted-foreground/80 line-clamp-2">
                         {project.Description || "No description provided for this project."}
                     </p>
-                 </div>
+                </div>
 
-                 {/* Dates Grid */}
-                 <div className="grid grid-cols-2 gap-2 text-xs">
-                    <div className="p-2 rounded-lg border bg-background/50 backdrop-blur-sm shadow-sm">
-                        <p className="text-muted-foreground mb-1 font-medium text-[9px] uppercase tracking-wider flex items-center gap-1">
-                            <Calendar className="h-2.5 w-2.5 opacity-70" />
+                {/* Footer / Dates Grid */}
+                <div className="relative z-10 mt-6 grid grid-cols-2 gap-4 rounded-xl border border-white/5 bg-black/20 p-4">
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60">
+                            <Calendar className="h-3 w-3" />
                             Start Date
-                        </p>
-                        <div className="font-semibold text-foreground">
-                             {project.ProjectStartDate ? format(new Date(project.ProjectStartDate), 'MMM d, yyyy') : '-'}
                         </div>
+                        <p className="text-sm font-semibold text-white">
+                            {project.StartDate ? format(new Date(project.StartDate), "MMM d, yyyy") : "TBD"}
+                        </p>
                     </div>
-                    <div className="p-2 rounded-lg border bg-background/50 backdrop-blur-sm shadow-sm">
-                        <p className="text-muted-foreground mb-1 font-medium text-[9px] uppercase tracking-wider flex items-center gap-1">
-                            <Clock className="h-2.5 w-2.5 opacity-70" />
+                    <div className="space-y-1 border-l border-white/5 pl-4">
+                        <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-muted-foreground/60">
+                            <Clock className="h-3 w-3" />
                             End Date
-                        </p>
-                        <div className="font-semibold text-foreground">
-                            {project.ProjectEndDate ? format(new Date(project.ProjectEndDate), 'MMM d, yyyy') : 'Ongoing'}
                         </div>
+                        <p className="text-sm font-semibold text-white">
+                            {project.EndDate ? format(new Date(project.EndDate), "MMM d, yyyy") : "Ongoing"}
+                        </p>
                     </div>
-                 </div>
-            </CardContent>
-        </Card>
-    );
+                </div>
+
+                {/* Hover Action */}
+                <div className="absolute top-0 right-0 p-6 opacity-0 -translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0 z-20 pointer-events-none">
+                    <ArrowUpRight className="h-6 w-6 text-sky-400" />
+                </div>
+            </div>
+        </div>
+    )
 }
