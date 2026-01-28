@@ -16,9 +16,9 @@ export interface ProjectCardProps {
         ProjectID: number
         ProjectName: string
         Description: string | null
-        StartDate: Date | null
-        EndDate: Date | null
-        IsActive: boolean
+        ProjectStartDate: Date | null
+        ProjectEndDate: Date | null
+        IsActive: boolean | null
         Created: Date
     }
 }
@@ -40,8 +40,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
                         <Badge
                             variant="secondary"
                             className={`mb-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${project.IsActive
-                                    ? "bg-sky-500/10 text-sky-400 border border-sky-500/20 group-hover:border-sky-500/50"
-                                    : "bg-white/5 text-muted-foreground border border-white/10"
+                                ? "bg-sky-500/10 text-sky-400 border border-sky-500/20 group-hover:border-sky-500/50"
+                                : "bg-white/5 text-muted-foreground border border-white/10"
                                 }`}
                         >
                             {project.IsActive ? "● Active Project" : "● Completed"}
@@ -89,7 +89,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             Start Date
                         </div>
                         <p className="text-sm font-semibold text-white">
-                            {project.StartDate ? format(new Date(project.StartDate), "MMM d, yyyy") : "TBD"}
+                            {project.ProjectStartDate ? format(new Date(project.ProjectStartDate), "MMM d, yyyy") : "TBD"}
                         </p>
                     </div>
                     <div className="space-y-1 border-l border-white/5 pl-4">
@@ -98,7 +98,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                             End Date
                         </div>
                         <p className="text-sm font-semibold text-white">
-                            {project.EndDate ? format(new Date(project.EndDate), "MMM d, yyyy") : "Ongoing"}
+                            {project.ProjectEndDate ? format(new Date(project.ProjectEndDate), "MMM d, yyyy") : "Ongoing"}
                         </p>
                     </div>
                 </div>

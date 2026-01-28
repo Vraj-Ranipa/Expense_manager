@@ -37,11 +37,11 @@ export function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    
+
                     <div className="flex items-center gap-3">
-                         <Logo 
-                            path={project.ProjectLogo} 
-                            alt={project.ProjectName} 
+                        <Logo
+                            path={project.ProjectLogo}
+                            alt={project.ProjectName}
                             fallbackClassName="h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold"
                             fallbackIcon={null}
                         />
@@ -53,43 +53,65 @@ export function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
                                 <Badge variant="outline" className="font-mono text-xs h-5 px-1.5 bg-background/50 backdrop-blur-sm border-primary/20">
                                     #{project.ProjectID}
                                 </Badge>
-                                 {project.IsActive ? (
+                                {project.IsActive ? (
                                     <Badge className="bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900/30 h-5 text-[10px] px-1.5">Active</Badge>
                                 ) : (
                                     <Badge variant="secondary" className="h-5 text-[10px] px-1.5">Inactive</Badge>
                                 )}
                             </div>
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                 <Clock className="h-3 w-3" />
-                                 <span>Created {format(new Date(project.Created), "PPP")}</span>
+                                <Clock className="h-3 w-3" />
+                                <span>Created {format(new Date(project.Created), "PPP")}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="flex items-center gap-2 ml-auto sm:ml-0">
-                    <Button variant="outline" size="sm" className="h-8 text-xs hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all px-3 hidden sm:flex">
-                        <Edit className="h-3.5 w-3.5 mr-1.5" />
-                        Edit Project
+                    <Button variant="outline" size="sm" asChild className="h-8 text-xs hover:border-indigo-500/50 hover:bg-indigo-500/5 transition-all px-3 hidden sm:flex cursor-pointer">
+                        <Link href={`/admin/projects/${project.ProjectID}/edit`}>
+                            <Edit className="h-3.5 w-3.5 mr-1.5" />
+                            Edit Project
+                        </Link>
                     </Button>
                     <DropdownMenu>
-                         <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon" className="h-8 w-8 sm:hidden">
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem>
-                                <Edit className="mr-2 h-4 w-4" /> Edit Project
+                            <DropdownMenuItem asChild>
+                                <Link href={`/admin/projects/${project.ProjectID}/edit`} className="flex w-full cursor-pointer">
+                                    <Edit className="mr-2 h-4 w-4" /> Edit Project
+                                </Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="text-destructive">
+                            <DropdownMenuItem
+                                className="text-destructive focus:text-destructive"
+                                onClick={async () => {
+                                    if (confirm("Are you sure you want to delete this project?")) {
+                                        const { deleteProject } = await import("@/actions/projects");
+                                        await deleteProject(project.ProjectID);
+                                    }
+                                }}
+                            >
                                 <Trash2 className="mr-2 h-4 w-4" /> Delete Project
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <Button variant="destructive" size="sm" className="h-8 text-xs shadow-sm hover:shadow-md transition-all px-3 hidden sm:flex bg-red-600 hover:bg-red-700">
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        className="h-8 text-xs shadow-sm hover:shadow-md transition-all px-3 hidden sm:flex bg-red-600 hover:bg-red-700"
+                        onClick={async () => {
+                            if (confirm("Are you sure you want to delete this project?")) {
+                                const { deleteProject } = await import("@/actions/projects");
+                                await deleteProject(project.ProjectID);
+                            }
+                        }}
+                    >
                         <Trash2 className="h-3.5 w-3.5 mr-1.5" />
                         Delete
                     </Button>

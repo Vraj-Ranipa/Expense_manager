@@ -211,6 +211,22 @@ export const columns: ColumnDef<Income>[] = [
                                 View Details
                             </Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href={`/incomes/${income.IncomeID}/edit`}>
+                                Edit
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="text-rose-500 focus:text-rose-500"
+                            onClick={async () => {
+                                if (confirm("Are you sure you want to delete this income?")) {
+                                    const { deleteIncome } = await import("@/actions/incomes");
+                                    await deleteIncome(income.IncomeID);
+                                }
+                            }}
+                        >
+                            Delete
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

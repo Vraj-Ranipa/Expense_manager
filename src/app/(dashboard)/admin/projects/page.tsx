@@ -30,7 +30,7 @@ export default async function ProjectsPage() {
                     asChild
                     className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all hover:scale-105"
                 >
-                    <Link href="#">
+                    <Link href="/admin/projects/new">
                         <Plus className="mr-2 h-4 w-4" />
                         New Project
                     </Link>

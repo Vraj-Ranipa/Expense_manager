@@ -24,37 +24,37 @@ import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { createExpense, updateExpense } from "@/actions/expenses"
+import { createIncome, updateIncome } from "@/actions/incomes"
 
-interface ExpenseFormProps {
+interface IncomeFormProps {
     categories: any[]
     projects: any[]
     peoples: any[]
     initialData?: any
 }
 
-export function ExpenseForm({ categories = [], projects = [], peoples = [], initialData }: ExpenseFormProps) {
+export function IncomeForm({ categories = [], projects = [], peoples = [], initialData }: IncomeFormProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [date, setDate] = useState<Date>(initialData?.ExpenseDate ? new Date(initialData.ExpenseDate) : new Date())
+    const [date, setDate] = useState<Date>(initialData?.IncomeDate ? new Date(initialData.IncomeDate) : new Date())
 
     async function onSubmit(formData: FormData) {
         setIsLoading(true)
         formData.append("date", date.toISOString());
 
         if (initialData) {
-            await updateExpense(initialData.ExpenseID, formData);
+            await updateIncome(initialData.IncomeID, formData);
         } else {
-            await createExpense(formData);
+            await createIncome(formData);
         }
         setIsLoading(false)
     }
 
     return (
         <Card className="border-none bg-white/5 backdrop-blur-md shadow-2xl shadow-black/20 overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
             <CardHeader className="border-b border-white/5 pb-6">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">{initialData ? "Edit Expense" : "New Expense"}</CardTitle>
-                <CardDescription>{initialData ? "Make changes to the existing expense." : "Enter the details of your new expense transaction."}</CardDescription>
+                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">{initialData ? "Edit Income" : "New Income"}</CardTitle>
+                <CardDescription>{initialData ? "Modify the details of this income transaction." : "Record a new income transaction."}</CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
                 <form action={onSubmit} className="space-y-6">
@@ -71,7 +71,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                                     step="0.01"
                                     placeholder="0.00"
                                     defaultValue={initialData?.Amount || ""}
-                                    className="pl-7 bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20 transition-all font-mono text-lg"
+                                    className="pl-7 bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20 transition-all font-mono text-lg"
                                     required
                                 />
                             </div>
@@ -85,7 +85,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-full pl-3 text-left font-normal bg-black/20 border-white/10 hover:bg-white/5 hover:text-primary transition-colors",
+                                            "w-full pl-3 text-left font-normal bg-black/20 border-white/10 hover:bg-white/5 hover:text-emerald-500 transition-colors",
                                             !date && "text-muted-foreground"
                                         )}
                                     >
@@ -117,9 +117,9 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                             <Input
                                 id="detail"
                                 name="detail"
-                                placeholder="e.g. Grocery Shopping, Uber Ride"
-                                defaultValue={initialData?.ExpenseDetail || ""}
-                                className="bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20"
+                                placeholder="e.g. Salary, Freelance Work"
+                                defaultValue={initialData?.IncomeDetail || ""}
+                                className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20"
                                 required
                             />
                         </div>
@@ -128,7 +128,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                         <div className="space-y-2">
                             <Label htmlFor="categoryId">Category</Label>
                             <Select name="categoryId" required defaultValue={initialData?.CategoryID ? String(initialData.CategoryID) : undefined}>
-                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20">
+                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20">
                                     <SelectValue placeholder="Select a category" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -145,7 +145,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                         <div className="space-y-2">
                             <Label htmlFor="projectId">Project (Optional)</Label>
                             <Select name="projectId" defaultValue={initialData?.ProjectID ? String(initialData.ProjectID) : "none"}>
-                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20">
+                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20">
                                     <SelectValue placeholder="Select a project" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -165,7 +165,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                                 name="description"
                                 placeholder="Add any extra notes here..."
                                 defaultValue={initialData?.Description || ""}
-                                className="resize-none bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20 min-h-[100px]"
+                                className="resize-none bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20 min-h-[100px]"
                             />
                         </div>
                     </div>
@@ -173,7 +173,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                     <Separator className="bg-white/10" />
 
                     <div className="flex justify-end">
-                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-primary hover:bg-primary/90 shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] transition-all">
+                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] transition-all text-white">
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -182,7 +182,7 @@ export function ExpenseForm({ categories = [], projects = [], peoples = [], init
                             ) : (
                                 <>
                                     <Save className="mr-2 h-4 w-4" />
-                                    {initialData ? "Update Expense" : "Save Expense"}
+                                    {initialData ? "Update Income" : "Save Income"}
                                 </>
                             )}
                         </Button>

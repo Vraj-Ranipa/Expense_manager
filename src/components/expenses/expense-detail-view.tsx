@@ -36,6 +36,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { deleteExpense } from "@/actions/expenses";
 
 interface ExpenseDetailViewProps {
     expense: any; // Using any for simplicity in this generated transition, ideally typed
@@ -106,10 +107,19 @@ export function ExpenseDetailView({ expense }: ExpenseDetailViewProps) {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="bg-black/90 border-white/10 backdrop-blur-xl min-w-[160px]">
-                            <DropdownMenuItem className="focus:bg-primary/20 focus:text-primary cursor-pointer gap-2">
-                                <Edit className="h-3.5 w-3.5" /> Edit
+                            <DropdownMenuItem asChild>
+                                <Link href={`/expenses/${expense.ExpenseID}/edit`} className="focus:bg-primary/20 focus:text-primary cursor-pointer gap-2 flex w-full">
+                                    <Edit className="h-3.5 w-3.5" /> Edit
+                                </Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="focus:bg-rose-500/20 focus:text-rose-400 cursor-pointer gap-2 text-rose-500">
+                            <DropdownMenuItem
+                                className="focus:bg-rose-500/20 focus:text-rose-400 cursor-pointer gap-2 text-rose-500"
+                                onClick={async () => {
+                                    if (confirm("Are you sure you want to delete this expense?")) {
+                                        await deleteExpense(expense.ExpenseID);
+                                    }
+                                }}
+                            >
                                 <Trash2 className="h-3.5 w-3.5" /> Delete
                             </DropdownMenuItem>
                         </DropdownMenuContent>

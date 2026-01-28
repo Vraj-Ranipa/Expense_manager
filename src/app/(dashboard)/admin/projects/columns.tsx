@@ -1,16 +1,17 @@
 "use client";
 
 import { Logo } from "@/components/shared/logo";
+import Link from "next/link";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-    DropdownMenu,
+DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
@@ -155,6 +156,28 @@ export const columns: ColumnDef<Project>[] = [
                             }
                         >
                             Copy Project ID
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href={`/admin/projects/${project.ProjectID}`}>
+                                View Details
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href={`/admin/projects/${project.ProjectID}/edit`}>
+                                Edit
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="text-rose-500 focus:text-rose-500"
+                            onClick={async () => {
+                                if (confirm("Are you sure you want to delete this project?")) {
+                                    const { deleteProject } = await import("@/actions/projects");
+                                    await deleteProject(project.ProjectID);
+                                }
+                            }}
+                        >
+                            Delete
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

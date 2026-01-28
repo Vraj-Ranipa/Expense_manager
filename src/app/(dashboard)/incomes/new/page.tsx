@@ -1,11 +1,11 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
-import { ExpenseForm } from "@/components/expenses/expense-form";
+import { IncomeForm } from "@/components/incomes/income-form";
 
-export default async function NewExpensePage() {
+export default async function NewIncomePage() {
     // Fetch data for the form
     const categoriesData = await prisma.categories.findMany({
-        where: { IsExpense: true },
+        where: { IsIncome: true },
         orderBy: { CategoryName: 'asc' }
     });
 
@@ -26,15 +26,15 @@ export default async function NewExpensePage() {
         <div className="flex-1 space-y-4 p-8 pt-6 animate-in fade-in zoom-in duration-500">
             <div className="flex items-center justify-between space-y-2 mb-6">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent drop-shadow-sm">Add New Expense</h2>
+                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent drop-shadow-sm">Add New Income</h2>
                     <p className="text-muted-foreground">
-                        Create a new expense record.
+                        Create a new income source or transaction.
                     </p>
                 </div>
             </div>
 
             <div className="max-w-2xl mx-auto">
-                <ExpenseForm
+                <IncomeForm
                     categories={categories}
                     projects={projects}
                     peoples={peoples}
