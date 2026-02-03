@@ -100,10 +100,8 @@ export const columns: ColumnDef<Income>[] = [
             }).format(amount);
 
             return (
-                <div className="text-right">
-                    <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border-emerald-100 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800">
-                        {formatted}
-                    </Badge>
+                <div className="text-right font-bold text-emerald-600 dark:text-emerald-400">
+                    {formatted}
                 </div>
             );
         },

@@ -17,15 +17,15 @@ export function ExpenseStats({
 }: ExpenseStatsProps) {
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="bg-gradient-to-br from-red-50 to-white dark:from-red-950 dark:to-background border-red-200 dark:border-red-900">
+            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
-                    <div className="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center dark:bg-red-900">
-                        <DollarSign className="h-4 w-4 text-red-600 dark:text-red-300" />
+                    <div className="h-8 w-8 rounded-full bg-rose-100 flex items-center justify-center dark:bg-rose-900/20">
+                        <DollarSign className="h-4 w-4 text-rose-600 dark:text-rose-500" />
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                    <div className="text-2xl font-bold">
                         {formatCurrency(totalExpense)}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -33,11 +33,11 @@ export function ExpenseStats({
                     </p>
                 </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-blue-50 to-white dark:from-blue-950 dark:to-background border-blue-200 dark:border-blue-900">
+            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Transactions</CardTitle>
-                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center dark:bg-blue-900">
-                        <CreditCard className="h-4 w-4 text-blue-600 dark:text-blue-300" />
+                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center dark:bg-blue-900/20">
+                        <CreditCard className="h-4 w-4 text-blue-600 dark:text-blue-500" />
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -47,11 +47,11 @@ export function ExpenseStats({
                     </p>
                 </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-purple-50 to-white dark:from-purple-950 dark:to-background border-purple-200 dark:border-purple-900">
+            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Average Expense</CardTitle>
-                    <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center dark:bg-purple-900">
-                        <Activity className="h-4 w-4 text-purple-600 dark:text-purple-300" />
+                    <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center dark:bg-purple-900/20">
+                        <Activity className="h-4 w-4 text-purple-600 dark:text-purple-500" />
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -61,11 +61,11 @@ export function ExpenseStats({
                     </p>
                 </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-amber-50 to-white dark:from-amber-950 dark:to-background border-amber-200 dark:border-amber-900">
+            <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Highest Entry</CardTitle>
-                    <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center dark:bg-amber-900">
-                        <TrendingUp className="h-4 w-4 text-amber-600 dark:text-amber-300" />
+                    <div className="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center dark:bg-amber-900/20">
+                        <TrendingUp className="h-4 w-4 text-amber-600 dark:text-amber-500" />
                     </div>
                 </CardHeader>
                 <CardContent>

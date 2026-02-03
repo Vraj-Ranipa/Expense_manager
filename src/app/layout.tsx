@@ -35,9 +35,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Background />
-          <div className="bg-noise" />
-          <div className="relative z-10 flex min-h-screen flex-col">
+          <div className="relative z-10 flex min-h-screen flex-col bg-white">
             {children}
           </div>
         </ThemeProvider>

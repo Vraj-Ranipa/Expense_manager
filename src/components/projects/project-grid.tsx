@@ -49,37 +49,34 @@ export function ProjectGrid({ data }: ProjectGridProps) {
     return (
         <div className="space-y-8">
             {/* Search Bar Container */}
-            <div className="relative mx-auto max-w-2xl">
-                <div className="relative group">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-sky-500/20 to-purple-500/20 blur-xl opacity-50 transition-opacity duration-500 group-hover:opacity-100" />
-                    <div className="relative flex items-center rounded-2xl border border-white/10 bg-black/40 p-2 backdrop-blur-xl shadow-2xl transition-all duration-300 hover:border-white/20">
-                        <Search className="ml-4 h-5 w-5 text-muted-foreground" />
-                        <Input
-                            type="text"
-                            placeholder="Search projects..."
-                            className="border-none bg-transparent text-lg placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <div className="flex items-center gap-2 pr-2">
-                            <div className="h-8 w-[1px] bg-white/10 mx-2" />
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-10 w-10 rounded-xl hover:bg-white/10 hover:text-white">
-                                        <SlidersHorizontal className="h-5 w-5" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-48 bg-black/90 backdrop-blur-xl border-white/10">
-                                    <DropdownMenuLabel>Sort Projects</DropdownMenuLabel>
-                                    <DropdownMenuSeparator className="bg-white/10" />
-                                    <DropdownMenuRadioGroup value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
-                                        <DropdownMenuRadioItem value="created" className="focus:bg-primary/20 focus:text-primary">Newest First</DropdownMenuRadioItem>
-                                        <DropdownMenuRadioItem value="name" className="focus:bg-primary/20 focus:text-primary">Name (A-Z)</DropdownMenuRadioItem>
-                                        <DropdownMenuRadioItem value="status" className="focus:bg-primary/20 focus:text-primary">Active First</DropdownMenuRadioItem>
-                                    </DropdownMenuRadioGroup>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </div>
+            <div className="relative mx-auto max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="relative flex items-center rounded-lg border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <Search className="ml-4 h-5 w-5 text-muted-foreground" />
+                    <Input
+                        type="text"
+                        placeholder="Search projects..."
+                        className="border-none bg-transparent text-lg placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:ring-offset-0 h-12"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <div className="flex items-center gap-2 pr-2">
+                        <div className="h-8 w-[1px] bg-border mx-2" />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-muted">
+                                    <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-48">
+                                <DropdownMenuLabel>Sort Projects</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup value={sortKey} onValueChange={(value) => setSortKey(value as SortKey)}>
+                                    <DropdownMenuRadioItem value="created">Newest First</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="name">Name (A-Z)</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="status">Active First</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </div>

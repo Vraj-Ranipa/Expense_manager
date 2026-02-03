@@ -39,16 +39,16 @@ export default async function ExpensesPage() {
     const highestExpense = formattedData.reduce((max, item) => Math.max(max, item.Amount), 0);
 
     return (
-        <div className="flex flex-1 flex-col gap-6 p-6 pt-0 animate-in fade-in zoom-in duration-500">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent drop-shadow-sm">Expenses</h2>
+                    <h2 className="text-3xl font-bold tracking-tight">Expenses</h2>
                     <p className="text-muted-foreground">
                         Manage and track your expense records and transactions.
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button asChild className="shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] transition-shadow">
+                    <Button asChild>
                         <Link href="/expenses/new">
                             <PlusCircle className="mr-2 h-4 w-4" />
                             Add Expense
@@ -65,9 +65,9 @@ export default async function ExpensesPage() {
             />
 
             <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-                <Card className="col-span-1 border-none bg-white/5 backdrop-blur-md shadow-lg shadow-black/20">
+                <Card className="col-span-1">
                     <CardHeader>
-                        <CardTitle className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">Recent Expenses</CardTitle>
+                        <CardTitle>Recent Expenses</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <DataTable

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { PlusCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CategoriesStats } from "@/components/categories/categories-stats"
+import { CategoryDialog } from "@/components/categories/category-dialog"
 
 export default async function CategoriesPage() {
     const data = await prisma.categories.findMany({
@@ -23,7 +24,7 @@ export default async function CategoriesPage() {
     const activeCategories = data.filter((c: categories) => c.IsActive).length;
     const newlyAdded = data.filter((c: categories) => new Date(c.Created) >= firstDayOfMonth).length;
     const totalCategories = data.length;
-    
+
     const totalSubCategories = data.reduce((acc, curr) => acc + curr.sub_categories.length, 0);
 
     return (
@@ -36,12 +37,16 @@ export default async function CategoriesPage() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button asChild disabled variant="outline">
-                        <Link href="#">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Add Category
-                        </Link>
-                    </Button>
+                    <div className="flex items-center space-x-2">
+                        <CategoryDialog
+                            trigger={
+                                <Button>
+                                    <PlusCircle className="mr-2 h-4 w-4" />
+                                    Add Category
+                                </Button>
+                            }
+                        />
+                    </div>
                 </div>
             </div>
 

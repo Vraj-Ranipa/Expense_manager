@@ -217,13 +217,13 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="w-full space-y-4 animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <div className="flex items-center gap-2 flex-wrap bg-card/30 p-3 rounded-xl border border-border/50 backdrop-blur-sm">
+            <div className="flex items-center gap-2 flex-wrap bg-card p-3 rounded-xl border border-border">
                 {filterKeys && filterKeys.length > 0 ? (
                     <Input
                         placeholder={`Filter ${filterKeys.map(k => k.title).join(", ")}...`}
                         value={globalFilter ?? ""}
                         onChange={(event) => setGlobalFilter(event.target.value)}
-                        className="max-w-sm bg-background/50 border-border/50 focus-visible:ring-primary/50 transition-all duration-300"
+                        className="max-w-sm"
                     />
                 ) : filterKey ? (
                     <Input
@@ -232,12 +232,12 @@ export function DataTable<TData, TValue>({
                         onChange={(event) =>
                             table.getColumn(filterKey)?.setFilterValue(event.target.value)
                         }
-                        className="max-w-sm bg-background/50 border-border/50 focus-visible:ring-primary/50 transition-all duration-300"
+                        className="max-w-sm"
                     />
                 ) : null}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto bg-background/50 hover:bg-primary/20 hover:text-primary border-border/50 transition-all duration-300" suppressHydrationWarning>
+                        <Button variant="outline" className="ml-auto" suppressHydrationWarning>
                             <DownloadIcon className="mr-2 h-4 w-4" />
                             Export
                         </Button>
@@ -260,7 +260,7 @@ export function DataTable<TData, TValue>({
                 </DropdownMenu>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-2 bg-background/50 hover:bg-primary/20 hover:text-primary border-border/50 transition-all duration-300" suppressHydrationWarning>
+                        <Button variant="outline" className="ml-2" suppressHydrationWarning>
                             Columns <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -285,11 +285,11 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-xl border border-border/40 overflow-hidden glass-card">
+            <div className="rounded-xl border border-border overflow-hidden bg-card shadow-sm">
                 <Table>
-                    <TableHeader className="bg-muted/30">
+                    <TableHeader className="bg-muted/50">
                         {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id} className="hover:bg-transparent border-b border-border/40">
+                            <TableRow key={headerGroup.id} className="hover:bg-transparent border-b border-border">
                                 {headerGroup.headers.map((header) => {
                                     return (
                                         <TableHead key={header.id} className="text-muted-foreground font-semibold">
@@ -311,7 +311,7 @@ export function DataTable<TData, TValue>({
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
-                                    className="hover:bg-primary/5 border-b border-border/40 transition-colors duration-200"
+                                    className="hover:bg-muted/50 border-b border-border transition-colors duration-200"
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

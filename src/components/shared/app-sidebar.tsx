@@ -52,6 +52,7 @@ import {
     useSidebar,
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { SessionPayload } from "@/lib/auth"
 
 interface NavItem {
     title: string
@@ -106,18 +107,24 @@ const navItems: { group: string; items: NavItem[] }[] = [
     },
 ]
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ user, ...props }: React.ComponentProps<typeof Sidebar> & { user: SessionPayload | null }) {
     const pathname = usePathname()
     const { state } = useSidebar()
 
+    // Filter items based on role
+    const filteredNavItems = navItems.map(group => {
+        if (group.group === "Management" && user?.role !== "Admin") return null;
+        return group;
+    }).filter(Boolean) as typeof navItems;
+
     return (
-        <MotionSidebar collapsible="icon" variant="floating" className="glass" {...props} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+        <MotionSidebar collapsible="icon" variant="floating" className="bg-sidebar border-r border-sidebar-border" {...props} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
                             <Link href="/">
-                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-none">
                                     <Wallet className="size-4" />
                                 </div>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
@@ -130,7 +137,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent className="gap-4 px-2">
-                {navItems.map((group) => (
+                {filteredNavItems.map((group) => (
                     <SidebarGroup key={group.group}>
                         <SidebarGroupLabel className="text-primary/80 font-bold uppercase tracking-wider text-[10px] mb-2 px-4">{group.group}</SidebarGroupLabel>
                         <SidebarMenu>
@@ -149,18 +156,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                         <SidebarMenuButton
                                                             tooltip={item.title}
                                                             isActive={isActive}
-                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.8)] transition-all duration-300 ease-out rounded-lg mb-1 hover:scale-105"
+                                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary transition-all duration-300 ease-out rounded-lg mb-1"
                                                         >
-                                                            {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
+                                                            {item.icon && <item.icon className={isActive ? "text-primary" : "text-muted-foreground/70"} />}
                                                             <span>{item.title}</span>
                                                             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                                         </SidebarMenuButton>
                                                     </DropdownMenuTrigger>
-                                                    <DropdownMenuContent side="right" align="start" sideOffset={4} className="bg-popover/80 backdrop-blur-xl border-white/10">
+                                                    <DropdownMenuContent side="right" align="start" sideOffset={4} className="bg-popover border-border shadow-lg">
                                                         <DropdownMenuLabel className="text-primary">{item.title}</DropdownMenuLabel>
-                                                        <DropdownMenuSeparator className="bg-white/10" />
+                                                        <DropdownMenuSeparator className="bg-border" />
                                                         {item.items.map((subItem) => (
-                                                            <DropdownMenuItem key={subItem.title} asChild className="focus:bg-primary/20 focus:text-primary">
+                                                            <DropdownMenuItem key={subItem.title} asChild className="focus:bg-primary/20 focus:text-primary cursor-pointer">
                                                                 <Link href={subItem.url} className="w-full cursor-pointer">
                                                                     <span>{subItem.title}</span>
                                                                 </Link>
@@ -184,9 +191,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                                     <SidebarMenuButton
                                                         tooltip={item.title}
                                                         isActive={isActive}
-                                                        className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.2)] transition-all duration-300 ease-out rounded-lg mb-1"
+                                                        className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary transition-all duration-300 ease-out rounded-lg mb-1"
                                                     >
-                                                        {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
+                                                        {item.icon && <item.icon className={isActive ? "text-primary" : "text-muted-foreground/70"} />}
                                                         <span className="font-medium">{item.title}</span>
                                                         <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 text-muted-foreground/50" />
                                                     </SidebarMenuButton>
@@ -223,10 +230,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                                             asChild
                                             tooltip={item.title}
                                             isActive={isActive}
-                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-gradient-to-r data-[active=true]:from-primary/25 data-[active=true]:to-transparent data-[active=true]:text-primary data-[active=true]:shadow-[0_0_15px_rgba(168,85,247,0.8)] transition-all duration-300 ease-out rounded-lg mb-1 hover:scale-105"
+                                            className="hover:bg-primary/20 hover:text-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary transition-all duration-300 ease-out rounded-lg mb-1"
                                         >
                                             <Link href={item.url}>
-                                                {item.icon && <item.icon className={isActive ? "text-primary drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]" : "text-muted-foreground/70"} />}
+                                                {item.icon && <item.icon className={isActive ? "text-primary" : "text-muted-foreground/70"} />}
                                                 <span className="font-medium">{item.title}</span>
                                             </Link>
                                         </SidebarMenuButton>
@@ -239,16 +246,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarContent>
             <SidebarFooter>
                 <div className="p-2">
-                    <div className="group rounded-xl border border-white/5 bg-gradient-to-br from-white/5 to-white/0 p-4 backdrop-blur-md transition-all duration-300 hover:border-primary/20 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)] relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="group rounded-xl border border-border bg-card p-4 transition-all duration-300 hover:border-primary/50 relative overflow-hidden">
                         <div className="flex items-center gap-3 relative z-10">
-                            <Avatar className="h-9 w-9 rounded-lg border border-primary/20 shadow-[0_0_10px_rgba(168,85,247,0.2)] group-hover:border-primary/50 transition-colors">
+                            <Avatar className="h-9 w-9 rounded-lg border border-border group-hover:border-primary/50 transition-colors">
                                 <AvatarImage src="/avatars/shadcn.jpg" alt="@shadcn" />
-                                <AvatarFallback className="rounded-lg bg-primary/20 text-primary">CN</AvatarFallback>
+                                <AvatarFallback className="rounded-lg bg-primary/10 text-primary">CN</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold text-foreground group-hover:text-primary transition-colors">User Name</span>
-                                <span className="truncate text-xs text-muted-foreground">Pro Plan</span>
+                                <span className="truncate font-semibold text-foreground group-hover:text-primary transition-colors">{user?.email.split('@')[0] || "User"}</span>
+                                <span className="truncate text-xs text-muted-foreground">{user?.email || "No Email"}</span>
                             </div>
                             <Settings className="ml-auto size-4 text-muted-foreground group-hover:text-primary transition-colors hover:rotate-90 duration-500 cursor-pointer" />
                         </div>

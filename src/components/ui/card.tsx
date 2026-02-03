@@ -14,11 +14,12 @@ function Card({
     <div
       data-slot="card"
       data-size={size}
-      className={cn("ring-foreground/10 bg-card text-card-foreground gap-6 overflow-hidden rounded-xl py-6 text-sm shadow-xs ring-1 has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col", className)}
+      className={cn("bg-card text-card-foreground gap-6 overflow-hidden rounded-xl py-6 text-sm shadow-none border border-border has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col", className)}
       {...props}
     />
   )
 }
+
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -92,12 +93,12 @@ const MotionCard = React.forwardRef<
 >(({ className, size = "default", ...props }, ref) => (
   <motion.div
     ref={ref}
-    whileHover={{ y: -5, boxShadow: "0 10px 30px -10px rgba(168, 85, 247, 0.3)" }}
+    whileHover={{ y: -2 }}
     transition={{ type: "spring", stiffness: 300, damping: 20 }}
     data-slot="card"
     data-size={size}
     className={cn(
-      "ring-foreground/10 bg-card/60 backdrop-blur-md text-card-foreground gap-6 overflow-hidden rounded-xl py-6 text-sm shadow-xs ring-1 has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col border border-white/5",
+      "bg-card text-card-foreground gap-6 overflow-hidden rounded-xl py-6 text-sm shadow-none border border-border has-[>img:first-child]:pt-0 data-[size=sm]:gap-4 data-[size=sm]:py-4 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl group/card flex flex-col",
       className
     )}
     {...props}

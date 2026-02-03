@@ -43,6 +43,8 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { logout } from "@/actions/auth";
+import { SessionPayload } from "@/lib/auth";
 
 // Reuse navItems from app-sidebar.tsx
 interface NavItem {
@@ -97,7 +99,15 @@ const navItems: { group: string; items: NavItem[] }[] = [
     },
 ];
 
-export function Navbar() {
+// Role-based access helper
+function getFilteredNavItems(role: string) {
+    return navItems.map(group => {
+        if (group.group === "Management" && role !== "Admin") return null;
+        return group;
+    }).filter(Boolean) as typeof navItems;
+}
+
+export function Navbar({ user }: { user: SessionPayload | null }) {
     const { scrollY } = useScroll();
     const [hidden, setHidden] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -128,18 +138,17 @@ export function Navbar() {
             animate={hidden ? "hidden" : "visible"}
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300",
+                "fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 bg-background border-b border-border shadow-sm",
                 scrolled
-                    ? "glass m-4 rounded-2xl border-white/5 shadow-2xl backdrop-blur-xl supports-[backdrop-filter]:bg-background/20"
-                    : "bg-transparent border-transparent"
+                    ? "py-3"
+                    : "py-4"
             )}
         >
             {/* Logo Area */}
             <div className="flex items-center gap-3">
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-sky-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.4)] transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(56,189,248,0.6)] group-hover:scale-105">
+                    <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-none transition-all duration-300 group-hover:scale-105">
                         <Wallet className="h-5 w-5" />
-                        <div className="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
                     <div className="flex flex-col">
                         <span className="text-lg font-bold tracking-tight text-foreground">
@@ -151,7 +160,7 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-1">
-                {navItems.flatMap((group) =>
+                {getFilteredNavItems(user?.role || "User").flatMap((group) =>
                     group.items.map((item) => {
                         const isActive =
                             item.url === "/"
@@ -167,7 +176,7 @@ export function Navbar() {
                                             className={cn(
                                                 "relative h-9 gap-1.5 rounded-full px-4 text-sm font-medium transition-all duration-300 hover:bg-primary/10 hover:text-primary",
                                                 isActive
-                                                    ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(56,189,248,0.3)]"
+                                                    ? "bg-primary/10 text-primary"
                                                     : "text-muted-foreground"
                                             )}
                                         >
@@ -179,17 +188,17 @@ export function Navbar() {
                                     <DropdownMenuContent
                                         align="center"
                                         sideOffset={10}
-                                        className="w-48 overflow-hidden rounded-xl border border-white/10 bg-black/80 p-1 backdrop-blur-xl animate-in fade-in-0 zoom-in-95"
+                                        className="w-48 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-lg animate-in fade-in-0 zoom-in-95"
                                     >
                                         <DropdownMenuLabel className="text-xs font-normal text-muted-foreground px-2 py-1.5">
                                             {item.title}
                                         </DropdownMenuLabel>
-                                        <DropdownMenuSeparator className="bg-white/10" />
+                                        <DropdownMenuSeparator className="bg-border" />
                                         {item.items.map((subItem) => (
                                             <DropdownMenuItem key={subItem.title} asChild>
                                                 <Link
                                                     href={subItem.url}
-                                                    className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors focus:bg-primary/20 focus:text-primary cursor-pointer"
+                                                    className="flex items-center gap-2 rounded-lg px-2 py-2 text-sm font-medium transition-colors focus:bg-primary/20 focus:text-primary cursor-pointer hover:bg-muted"
                                                 >
                                                     {subItem.icon && (
                                                         <subItem.icon className="h-4 w-4" />
@@ -208,9 +217,9 @@ export function Navbar() {
                                 key={item.title}
                                 href={item.url}
                                 className={cn(
-                                    "relative flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-all duration-300 hover:bg-primary/10 hover:text-primary hover:-translate-y-0.5",
+                                    "relative flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium transition-all duration-300 hover:bg-primary/10 hover:text-primary",
                                     isActive
-                                        ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(56,189,248,0.3)]"
+                                        ? "bg-primary/10 text-primary"
                                         : "text-muted-foreground"
                                 )}
                             >
@@ -233,7 +242,7 @@ export function Navbar() {
                             variant="ghost"
                             className="relative h-10 w-10 rounded-full p-0 hover:bg-transparent"
                         >
-                            <Avatar className="h-10 w-10 border-2 border-primary/20 shadow-[0_0_10px_rgba(56,189,248,0.2)] transition-all duration-300 hover:border-primary/50 hover:shadow-[0_0_20px_rgba(56,189,248,0.4)]">
+                            <Avatar className="h-10 w-10 border border-border shadow-none transition-all duration-300 hover:border-primary">
                                 <AvatarImage src="/avatars/shadcn.jpg" alt="@shadcn" />
                                 <AvatarFallback className="bg-primary/10 text-primary font-bold">
                                     CN
@@ -244,24 +253,27 @@ export function Navbar() {
                     <DropdownMenuContent
                         align="end"
                         sideOffset={10}
-                        className="w-56 rounded-xl border border-white/10 bg-black/80 p-1 backdrop-blur-xl"
+                        className="w-56 rounded-xl border border-border bg-popover p-1 shadow-lg"
                     >
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex flex-col space-y-1 p-2">
                                 <p className="text-sm font-medium leading-none text-primary">
-                                    User Name
+                                    {user?.email.split('@')[0] || "Guest"}
                                 </p>
                                 <p className="text-xs leading-none text-muted-foreground">
-                                    user@example.com
+                                    {user?.email || "No email"}
                                 </p>
                             </div>
                         </DropdownMenuLabel>
-                        <DropdownMenuSeparator className="bg-white/10" />
-                        <DropdownMenuItem className="cursor-pointer focus:bg-primary/20 focus:text-primary rounded-lg">
+                        <DropdownMenuSeparator className="bg-border" />
+                        <DropdownMenuItem className="cursor-pointer focus:bg-primary/20 focus:text-primary rounded-lg hover:bg-muted">
                             <Settings className="mr-2 h-4 w-4" />
                             <span>Settings</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer focus:bg-destructive/20 focus:text-destructive rounded-lg text-destructive">
+                        <DropdownMenuItem
+                            className="cursor-pointer focus:bg-destructive/20 focus:text-destructive rounded-lg text-destructive hover:bg-muted"
+                            onClick={() => logout()}
+                        >
                             <span className="flex w-full items-center">Log out</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -274,17 +286,17 @@ export function Navbar() {
                             <Menu className="h-6 w-6" />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[300px] border-r border-white/10 bg-black/90 backdrop-blur-xl p-0">
-                        <SheetHeader className="p-6 border-b border-white/10">
+                    <SheetContent side="left" className="w-[300px] border-r border-border bg-background p-0">
+                        <SheetHeader className="p-6 border-b border-border">
                             <SheetTitle className="flex items-center gap-2">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                                     <Wallet className="h-5 w-5" />
                                 </div>
                                 <span className="font-bold">Expense Manager</span>
                             </SheetTitle>
                         </SheetHeader>
                         <div className="flex flex-col gap-1 p-4">
-                            {navItems.map((group) => (
+                            {getFilteredNavItems(user?.role || "User").map((group) => (
                                 <div key={group.group} className="mb-4">
                                     <h4 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/50">{group.group}</h4>
                                     <div className="flex flex-col gap-1">
@@ -298,12 +310,12 @@ export function Navbar() {
                                                                 {item.icon && <item.icon className="mr-2 h-4 w-4" />}
                                                                 {item.title}
                                                             </div>
-                                                            <div className="ml-4 flex flex-col border-l border-white/10 pl-2">
+                                                            <div className="ml-4 flex flex-col border-l border-border pl-2">
                                                                 {item.items.map(subItem => (
                                                                     <Link
                                                                         key={subItem.title}
                                                                         href={subItem.url}
-                                                                        className="flex items-center rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+                                                                        className="flex items-center rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:text-primary hover:bg-muted"
                                                                     >
                                                                         {subItem.title}
                                                                     </Link>
@@ -315,7 +327,7 @@ export function Navbar() {
                                                             href={item.url}
                                                             className={cn(
                                                                 "flex items-center rounded-lg px-2 py-2 text-sm font-medium transition-colors",
-                                                                isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                                                                isActive ? "bg-primary/10 text-primary" : "text-muted-foreground hover:bg-muted hover:text-foreground"
                                                             )}
                                                         >
                                                             {item.icon && <item.icon className="mr-2 h-4 w-4" />}

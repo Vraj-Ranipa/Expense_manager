@@ -7,6 +7,7 @@ import Link from "next/link"
 import { PlusCircle } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PeopleStats } from "@/components/people/people-stats"
+import { PeopleDialog } from "@/components/people/people-dialog"
 
 export default async function PeoplePage() {
     const data = await prisma.peoples.findMany({
@@ -37,12 +38,14 @@ export default async function PeoplePage() {
                 </div>
                 {/* Placeholder for Add People - functionality deferred */}
                 <div className="flex items-center space-x-2">
-                    <Button asChild disabled variant="outline">
-                        <Link href="#">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Add People
-                        </Link>
-                    </Button>
+                    <PeopleDialog
+                        trigger={
+                            <Button>
+                                <PlusCircle className="mr-2 h-4 w-4" />
+                                Add People
+                            </Button>
+                        }
+                    />
                 </div>
             </div>
 
@@ -59,13 +62,13 @@ export default async function PeoplePage() {
                         <CardTitle>All People</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <DataTable 
-                            columns={columns} 
-                            data={data} 
+                        <DataTable
+                            columns={columns}
+                            data={data}
                             filterKeys={[
                                 { id: "PeopleName", title: "Name" },
                                 { id: "MobileNo", title: "Mobile" }
-                            ]} 
+                            ]}
                         />
                     </CardContent>
                 </Card>
