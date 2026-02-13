@@ -18,24 +18,32 @@ interface RelatedTransactionsProps {
 export function RelatedTransactions({ expenses, incomes }: RelatedTransactionsProps) {
     return (
         <Card className="h-full border-none shadow-none bg-transparent flex flex-col px-4 sm:px-6">
-            <CardHeader className="px-0 pt-0 shrink-0">
-                <CardTitle className="flex items-center gap-2">
-                    <ArrowRightLeft className="h-5 w-5 text-primary" />
-                    Transactions
-                </CardTitle>
-                <CardDescription>Recent financial activity for this project</CardDescription>
+            <CardHeader className="px-0 pt-0 shrink-0 pb-4">
+                <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+                        <ArrowRightLeft className="h-5 w-5 text-orange-500" />
+                        Transactions
+                    </CardTitle>
+                    <p className="text-sm text-muted-foreground">Recent financial activity for this project</p>
+                </div>
             </CardHeader>
             <CardContent className="px-0 flex-1 min-h-0 flex flex-col">
                 <Tabs defaultValue="expenses" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-2 mb-4 shrink-0">
-                        <TabsTrigger value="expenses" className="data-[state=active]:bg-rose-100 data-[state=active]:text-rose-900 dark:data-[state=active]:bg-rose-900/20 dark:data-[state=active]:text-rose-300">
+                    <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent p-0 gap-4 h-auto">
+                        <TabsTrigger
+                            value="expenses"
+                            className="h-10 rounded-md data-[state=active]:bg-rose-100 data-[state=active]:text-rose-700 data-[state=active]:shadow-none bg-muted/50 border border-transparent data-[state=active]:border-rose-200 transition-all font-semibold"
+                        >
                             Expenses ({expenses.length})
                         </TabsTrigger>
-                        <TabsTrigger value="incomes" className="data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-900 dark:data-[state=active]:bg-emerald-900/20 dark:data-[state=active]:text-emerald-300">
+                        <TabsTrigger
+                            value="incomes"
+                            className="h-10 rounded-md data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-700 data-[state=active]:shadow-none bg-muted/50 border border-transparent data-[state=active]:border-emerald-200 transition-all font-semibold"
+                        >
                             Income ({incomes.length})
                         </TabsTrigger>
                     </TabsList>
-                    
+
                     <TabsContent value="expenses" className="flex-1 min-h-0 mt-0">
                         {expenses.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground bg-muted/30 rounded-lg border border-dashed m-4">
@@ -63,7 +71,7 @@ export function RelatedTransactions({ expenses, incomes }: RelatedTransactionsPr
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 {expense.categories && (
                                                     <Badge variant="secondary" className="text-[10px] px-2 py-0.5 h-auto hidden sm:flex shrink-0 mx-2">
                                                         {expense.categories.CategoryName}
@@ -82,14 +90,14 @@ export function RelatedTransactions({ expenses, incomes }: RelatedTransactionsPr
                             </ScrollArea>
                         )}
                     </TabsContent>
-                    
+
                     <TabsContent value="incomes" className="flex-1 min-h-0 mt-0">
-                         {incomes.length === 0 ? (
+                        {incomes.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground bg-muted/30 rounded-lg border border-dashed m-4">
                                 <p>No income recorded yet.</p>
                             </div>
                         ) : (
-                             <ScrollArea className="h-[400px] md:h-[500px] lg:h-[600px] rounded-md border bg-background w-full">
+                            <ScrollArea className="h-[400px] md:h-[500px] lg:h-[600px] rounded-md border bg-background w-full">
                                 <div className="p-4 grid gap-3">
                                     {incomes.map((income) => (
                                         <div key={income.IncomeID} className="flex items-center justify-between gap-2 p-3 rounded-lg border bg-card hover:bg-muted/40 transition-all hover:border-primary/40 hover:shadow-md group cursor-pointer">
@@ -110,7 +118,7 @@ export function RelatedTransactions({ expenses, incomes }: RelatedTransactionsPr
                                                 </div>
                                             </div>
 
-                                             {income.categories && (
+                                            {income.categories && (
                                                 <Badge variant="secondary" className="text-[10px] px-2 py-0.5 h-auto hidden sm:flex shrink-0 mx-2">
                                                     {income.categories.CategoryName}
                                                 </Badge>
@@ -124,7 +132,7 @@ export function RelatedTransactions({ expenses, incomes }: RelatedTransactionsPr
                                         </div>
                                     ))}
                                 </div>
-                             </ScrollArea>
+                            </ScrollArea>
                         )}
                     </TabsContent>
                 </Tabs>

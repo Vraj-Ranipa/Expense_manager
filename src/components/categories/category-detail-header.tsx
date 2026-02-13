@@ -18,30 +18,30 @@ export function CategoryDetailHeader({ category }: CategoryDetailHeaderProps) {
         <div className="flex-none px-4 py-3 md:px-6 border-b border-border/60 bg-background/90 backdrop-blur-xl z-50 shadow-sm sticky top-0">
             <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                    <Button variant="ghost" size="icon" onClick={() => router.back()} className="shrink-0 rounded-full hover:bg-muted/60">
-                        <ArrowLeft className="h-5 w-5 text-muted-foreground" />
+                    <Button variant="ghost" size="icon" onClick={() => router.back()} className="shrink-0 rounded-full hover:bg-muted/60 h-8 w-8">
+                        <ArrowLeft className="h-4 w-4 text-muted-foreground" />
                     </Button>
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-800 shadow-sm">
+                        <div className="h-10 w-10 rounded-xl bg-orange-100/50 dark:bg-orange-900/20 flex items-center justify-center text-orange-500 border border-orange-200/50 dark:border-orange-800/50">
                             <Folder className="h-5 w-5" />
                         </div>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="text-xl font-bold tracking-tight">{category.CategoryName}</h1>
+                                <h1 className="text-lg font-bold tracking-tight text-foreground">{category.CategoryName}</h1>
                                 {!category.IsActive && (
-                                    <Badge variant="destructive" className="h-5 px-1.5 text-[10px]">Inactive</Badge>
+                                    <Badge variant="secondary" className="h-5 px-1.5 text-[10px] bg-red-100 text-red-700">Inactive</Badge>
                                 )}
                             </div>
-                            <p className="text-xs text-muted-foreground">Category Options</p>
+                            <p className="text-xs text-muted-foreground font-medium">Category Options</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" className="h-8 gap-2 hidden sm:flex hover:bg-muted/60">
+                    <Button variant="outline" size="sm" className="h-8 gap-2 hidden sm:flex hover:bg-muted/60 text-xs font-medium">
                         <Edit className="h-3.5 w-3.5" />
-                        <span className="sr-only sm:not-sr-only">Edit</span>
+                        Edit
                     </Button>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-rose-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20">
                         <Trash className="h-4 w-4" />
                     </Button>
                 </div>

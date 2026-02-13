@@ -1,11 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { DataTable } from "@/components/ui/data-table";
-import { columns } from "./columns";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { IncomeStats } from "@/components/incomes/income-stats";
+import { AddIncomeButton } from "@/components/incomes/add-income-button";
+import { IncomesClient } from "@/components/incomes/incomes-client";
 
 export default async function IncomesPage() {
     const data = await prisma.incomes.findMany({
@@ -18,6 +14,21 @@ export default async function IncomesPage() {
             peoples: true,
             projects: true,
         }
+    });
+
+    const categories = await prisma.categories.findMany({
+        where: { IsIncome: true, IsActive: true }
+    });
+    const formattedCategories = categories.map(cat => ({
+        ...cat,
+        Sequence: cat.Sequence?.toNumber() ?? 0
+    }));
+
+    const projects = await prisma.projects.findMany({
+        where: { IsActive: true }
+    });
+    const peoples = await prisma.peoples.findMany({
+        where: { IsActive: true }
     });
 
     const formattedData = data.map((income) => ({
@@ -48,12 +59,7 @@ export default async function IncomesPage() {
                     </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <Button asChild>
-                        <Link href="/incomes/new">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Add Income
-                        </Link>
-                    </Button>
+                    <AddIncomeButton categories={formattedCategories} projects={projects} />
                 </div>
             </div>
 
@@ -64,29 +70,12 @@ export default async function IncomesPage() {
                 highestIncome={highestIncome}
             />
 
-            <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-1">
-                <Card className="col-span-1">
-                    <CardHeader>
-                        <CardTitle>Recent Incomes</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <DataTable
-                            columns={columns}
-                            data={formattedData}
-                            filterKeys={[
-                                { id: "Category", title: "Category" },
-                                { id: "Description", title: "Description" },
-                                { id: "People", title: "People" },
-                            ]}
-                            initialColumnVisibility={{
-                                SubCategory: false,
-                                IncomeDetail: false,
-                                Description: false,
-                            }}
-                        />
-                    </CardContent>
-                </Card>
-            </div>
+            <IncomesClient
+                data={formattedData}
+                categories={formattedCategories}
+                projects={projects}
+                peoples={peoples}
+            />
         </div>
     );
 }

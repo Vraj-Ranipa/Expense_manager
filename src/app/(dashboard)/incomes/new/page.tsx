@@ -24,10 +24,10 @@ export default async function NewIncomePage() {
 
     return (
         <div className="flex-1 space-y-4 p-8 pt-6 animate-in fade-in zoom-in duration-500">
-            <div className="flex items-center justify-between space-y-2 mb-6">
+            <div className="flex items-center justify-between space-y-2 mb-8">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent drop-shadow-sm">Add New Income</h2>
-                    <p className="text-muted-foreground">
+                    <h2 className="text-3xl font-bold tracking-tight text-foreground">Add New Income</h2>
+                    <p className="text-muted-foreground mt-1">
                         Create a new income source or transaction.
                     </p>
                 </div>

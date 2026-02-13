@@ -47,7 +47,7 @@ export default async function PeopleDetailPage({ params }: PageProps) {
             <PeopleDetailHeader person={serializedPerson} />
 
             <main className="flex-1 w-full max-w-[1800px] mx-auto p-4 md:p-6 flex flex-col gap-6">
-                
+
                 {/* Financial Overview */}
                 <section className="shrink-0">
                     <h3 className="text-lg font-semibold mb-3 flex items-center gap-2 px-1">
@@ -60,64 +60,54 @@ export default async function PeopleDetailPage({ params }: PageProps) {
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 h-full min-h-0">
                     {/* Left Column: Details (2 cols) */}
                     <div className="lg:col-span-2 flex flex-col gap-6">
-                        
-                        {/* Personal Details Card */}
-                        <Card className="shadow-md bg-gradient-to-br from-white/90 to-muted/50 dark:from-card/90 dark:to-muted/20 backdrop-blur-xl relative overflow-hidden transition-all hover:shadow-lg group border border-transparent hover:border-primary/30 h-full">
-                            <div className="absolute top-0 right-0 p-4 opacity-50">
-                                <Phone className="h-64 w-64 text-primary/5 absolute -top-10 -right-10 rotate-12 pointer-events-none" />
-                            </div>
-                            <CardHeader className="relative z-10 pb-2">
-                                <CardTitle className="flex items-center gap-2 text-base font-semibold group-hover:text-primary transition-colors">
-                                    <div className="p-1.5 bg-primary/10 rounded group-hover:bg-primary/20 transition-colors">
-                                        <FileText className="h-4 w-4 text-primary" />
-                                    </div>
-                                    Contact Details
-                                </CardTitle>
-                                <CardDescription>Contact information and notes</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-3 relative z-10">
-                                {/* Phone */}
-                                <div className="bg-background/80 p-2 rounded-xl border flex items-center gap-3 shadow-sm hover:shadow-md transition-shadow group/item">
-                                    <div className="h-9 w-9 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center border border-orange-100 dark:bg-orange-950/30 dark:border-orange-900/50 group-hover/item:scale-110 transition-transform">
-                                        <Phone className="h-4 w-4" />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Mobile Number</p>
-                                        <p className="font-bold text-sm text-slate-900 dark:text-slate-100">
-                                            {serializedPerson.MobileNo || "Not Provided"}
-                                        </p>
-                                    </div>
-                                </div>
 
-                                {/* Email */}
-                                <div className="bg-background/80 p-2 rounded-xl border flex items-center gap-3 shadow-sm hover:shadow-md transition-shadow group/item">
-                                    <div className="h-9 w-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 dark:bg-blue-950/30 dark:border-blue-900/50 group-hover/item:scale-110 transition-transform">
-                                        <Mail className="h-4 w-4" />
+                        <div className="space-y-4">
+                            <h3 className="text-lg font-semibold flex items-center gap-2">
+                                <FileText className="h-5 w-5 text-orange-500" />
+                                Contact Details
+                            </h3>
+                            <Card className="shadow-sm border-border/60 bg-card/50 backdrop-blur-sm">
+                                <CardContent className="p-6 space-y-6">
+                                    <div className="space-y-2">
+                                        <p className="text-muted-foreground text-sm">Contact information and notes</p>
                                     </div>
-                                    <div className="overflow-hidden">
-                                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide">Email Address</p>
-                                        <p className="font-bold text-sm text-slate-900 dark:text-slate-100 truncate" title={serializedPerson.Email || ""}>
-                                            {serializedPerson.Email || "Not Provided"}
-                                        </p>
+
+                                    <div className="space-y-4 pt-2">
+                                        <div className="flex items-center gap-4 p-3 rounded-lg border bg-background/50">
+                                            <div className="h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
+                                                <Phone className="h-5 w-5" />
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Mobile Number</p>
+                                                <p className="font-semibold text-foreground">{serializedPerson.MobileNo || "Not Provided"}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-4 p-3 rounded-lg border bg-background/50">
+                                            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                                <Mail className="h-5 w-5" />
+                                            </div>
+                                            <div className="overflow-hidden">
+                                                <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Email Address</p>
+                                                <p className="font-semibold text-foreground truncate">{serializedPerson.Email || "Not Provided"}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                    {/* Note/Description */}
-                                {serializedPerson.Description && (
-                                    <div className="bg-background/80 p-3 rounded-xl border shadow-sm hover:border-primary/20 transition-colors">
-                                        <h4 className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide mb-1">Notes</h4>
-                                        <p className="text-xs leading-relaxed text-foreground/90 whitespace-pre-wrap">
-                                            {serializedPerson.Description}
-                                        </p>
+
+                                    <div className="space-y-2 pt-2 border-t border-border/50">
+                                        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-4">Notes</h4>
+                                        <div className="text-sm leading-relaxed text-foreground/80 font-medium p-3 rounded-md bg-muted/30 border border-border/50 min-h-[80px]">
+                                            {serializedPerson.Description || "No notes available."}
+                                        </div>
                                     </div>
-                                    )}
-                            </CardContent>
-                        </Card>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </div>
 
                     {/* Right Column: Transactions (3 cols) */}
                     <div className="lg:col-span-3 h-full min-h-0">
-                            <PeopleRelatedTransactions expenses={serializedPerson.expenses} incomes={serializedPerson.incomes} />
+                        <PeopleRelatedTransactions expenses={serializedPerson.expenses} incomes={serializedPerson.incomes} />
                     </div>
                 </div>
             </main>
@@ -130,5 +120,5 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+    return twMerge(clsx(inputs))
 }

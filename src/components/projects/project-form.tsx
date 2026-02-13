@@ -42,37 +42,36 @@ export function ProjectForm({ initialData }: ProjectFormProps) {
     }
 
     return (
-        <Card className="border-none bg-white/5 backdrop-blur-md shadow-2xl shadow-black/20 overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-            <CardHeader className="border-b border-white/5 pb-6">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">{initialData ? "Edit Project" : "New Project"}</CardTitle>
-                <CardDescription>{initialData ? "Modify the project details." : "Create a new project to track expenses and incomes."}</CardDescription>
+        <Card className="border shadow-sm bg-white">
+            <CardHeader className="pb-6 border-b border-border/50">
+                <CardTitle className="text-xl font-semibold text-foreground">{initialData ? "Edit Project" : "New Project"}</CardTitle>
+                <CardDescription className="text-muted-foreground">{initialData ? "Modify the project details." : "Create a new project to track expenses and incomes."}</CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
-                <form action={onSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className="pt-8">
+                <form action={onSubmit} className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Project Name */}
-                        <div className="space-y-2 col-span-1 md:col-span-2">
-                            <Label htmlFor="name">Project Name</Label>
+                        <div className="space-y-2.5 col-span-1 md:col-span-2">
+                            <Label htmlFor="name" className="text-sm font-medium text-foreground/70">Project Name</Label>
                             <Input
                                 id="name"
                                 name="name"
                                 placeholder="e.g. Website Redesign"
                                 defaultValue={initialData?.ProjectName || ""}
-                                className="bg-black/20 border-white/10 focus:border-indigo-500/50 focus:ring-indigo-500/20"
+                                className="h-11 transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500"
                                 required
                             />
                         </div>
 
                         {/* Start Date */}
-                        <div className="space-y-2 flex flex-col">
-                            <Label>Start Date</Label>
+                        <div className="space-y-2.5 flex flex-col">
+                            <Label className="text-sm font-medium text-foreground/70">Start Date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-full pl-3 text-left font-normal bg-black/20 border-white/10 hover:bg-white/5 hover:text-indigo-500 transition-colors",
+                                            "w-full h-11 pl-3 text-left font-normal border-input hover:bg-accent/50 hover:text-accent-foreground transition-colors",
                                             !startDate && "text-muted-foreground"
                                         )}
                                     >
@@ -96,14 +95,14 @@ export function ProjectForm({ initialData }: ProjectFormProps) {
                         </div>
 
                         {/* End Date */}
-                        <div className="space-y-2 flex flex-col">
-                            <Label>End Date</Label>
+                        <div className="space-y-2.5 flex flex-col">
+                            <Label className="text-sm font-medium text-foreground/70">End Date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-full pl-3 text-left font-normal bg-black/20 border-white/10 hover:bg-white/5 hover:text-indigo-500 transition-colors",
+                                            "w-full h-11 pl-3 text-left font-normal border-input hover:bg-accent/50 hover:text-accent-foreground transition-colors",
                                             !endDate && "text-muted-foreground"
                                         )}
                                     >
@@ -127,22 +126,20 @@ export function ProjectForm({ initialData }: ProjectFormProps) {
                         </div>
 
                         {/* Description */}
-                        <div className="space-y-2 col-span-1 md:col-span-2">
-                            <Label htmlFor="description">Description (Optional)</Label>
+                        <div className="space-y-2.5 col-span-1 md:col-span-2">
+                            <Label htmlFor="description" className="text-sm font-medium text-foreground/70">Description (Optional)</Label>
                             <Textarea
                                 id="description"
                                 name="description"
                                 placeholder="Add any extra notes here..."
                                 defaultValue={initialData?.Description || ""}
-                                className="resize-none bg-black/20 border-white/10 focus:border-indigo-500/50 focus:ring-indigo-500/20 min-h-[100px]"
+                                className="resize-none min-h-[120px] transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500 p-4"
                             />
                         </div>
                     </div>
 
-                    <Separator className="bg-white/10" />
-
-                    <div className="flex justify-end">
-                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:shadow-[0_0_30px_rgba(99,102,241,0.6)] transition-all text-white">
+                    <div className="flex justify-end pt-4">
+                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto h-11 px-8 bg-indigo-600 hover:bg-indigo-700 text-white font-medium shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-indigo-500/50">
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

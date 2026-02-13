@@ -1,5 +1,9 @@
-import { DataTablePageSkeleton } from "@/components/shared/data-table-page-skeleton";
+import { LoadingVisual } from "@/components/ui/loading-visual";
 
 export default function Loading() {
-    return <DataTablePageSkeleton />;
+    return (
+        <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
+            <LoadingVisual message="Loading expenses..." />
+        </div>
+    );
 }

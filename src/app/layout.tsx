@@ -3,6 +3,8 @@ import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Background } from "@/components/ui/background";
+import { LoadingProvider } from "@/context/loading-context";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -35,9 +37,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <div className="relative z-10 flex min-h-screen flex-col bg-white">
-            {children}
-          </div>
+          <LoadingProvider>
+            <LoadingScreen />
+            <div className="relative z-10 flex min-h-screen flex-col bg-white">
+              {children}
+            </div>
+          </LoadingProvider>
         </ThemeProvider>
       </body>
     </html>

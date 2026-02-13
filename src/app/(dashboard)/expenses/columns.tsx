@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { ExpenseDialog } from "@/components/expenses/expense-dialog";
+import { useState } from "react";
 
 export type Expense = {
     ExpenseID: number;
@@ -30,7 +32,64 @@ export type Expense = {
     Modified: Date;
 };
 
-export const columns: ColumnDef<Expense>[] = [
+// Separate component for Row Actions to handle state
+const CellAction = ({ expense, categories, projects, peoples }: { expense: Expense, categories: any[], projects: any[], peoples: any[] }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <ExpenseDialog
+                open={open}
+                onOpenChange={setOpen}
+                initialData={expense}
+                categories={categories}
+                projects={projects}
+            />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            navigator.clipboard.writeText(expense.ExpenseID.toString())
+                        }
+                    >
+                        Copy Expense ID
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href={`/expenses/${expense.ExpenseID}`}>
+                            View Details
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => {
+                        e.preventDefault();
+                        setOpen(true);
+                    }}>
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-rose-500 focus:text-rose-500"
+                        onClick={async () => {
+                            if (confirm("Are you sure you want to delete this expense?")) {
+                                const { deleteExpense } = await import("@/actions/expenses");
+                                await deleteExpense(expense.ExpenseID);
+                            }
+                        }}
+                    >
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </>
+    );
+};
+
+export const getColumns = (categories: any[], projects: any[], peoples: any[]): ColumnDef<Expense>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -183,51 +242,6 @@ export const columns: ColumnDef<Expense>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => {
-            const expense = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(expense.ExpenseID.toString())
-                            }
-                        >
-                            Copy Expense ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href={`/expenses/${expense.ExpenseID}`}>
-                                View Details
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href={`/expenses/${expense.ExpenseID}/edit`}>
-                                Edit
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-rose-500 focus:text-rose-500"
-                            onClick={async () => {
-                                if (confirm("Are you sure you want to delete this expense?")) {
-                                    const { deleteExpense } = await import("@/actions/expenses");
-                                    await deleteExpense(expense.ExpenseID);
-                                }
-                            }}
-                        >
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        cell: ({ row }) => <CellAction expense={row.original} categories={categories} projects={projects} peoples={peoples} />
     },
 ];

@@ -30,8 +30,68 @@ export type Income = {
     Modified: Date;
 };
 
-export const columns: ColumnDef<Income>[] = [
-    // ... (keep Checkbox, ID, IncomeDate, Amount columns as is)
+import { IncomeDialog } from "@/components/incomes/income-dialog";
+import { useState } from "react";
+
+// Separate component for Row Actions to handle state
+const CellAction = ({ income, categories, projects, peoples }: { income: Income, categories: any[], projects: any[], peoples: any[] }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <IncomeDialog
+                open={open}
+                onOpenChange={setOpen}
+                initialData={income}
+                categories={categories}
+                projects={projects}
+            // peoples={peoples} // IncomeDialog doesn't use peoples currently as per form logic
+            />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            navigator.clipboard.writeText(income.IncomeID.toString())
+                        }
+                    >
+                        Copy Income ID
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href={`/incomes/${income.IncomeID}`}>
+                            View Details
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => {
+                        e.preventDefault();
+                        setOpen(true);
+                    }}>
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-rose-500 focus:text-rose-500"
+                        onClick={async () => {
+                            if (confirm("Are you sure you want to delete this income?")) {
+                                const { deleteIncome } = await import("@/actions/incomes");
+                                await deleteIncome(income.IncomeID);
+                            }
+                        }}
+                    >
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </>
+    );
+};
+
+export const getColumns = (categories: any[], projects: any[], peoples: any[]): ColumnDef<Income>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -183,51 +243,6 @@ export const columns: ColumnDef<Income>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => {
-            const income = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(income.IncomeID.toString())
-                            }
-                        >
-                            Copy Income ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href={`/incomes/${income.IncomeID}`}>
-                                View Details
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href={`/incomes/${income.IncomeID}/edit`}>
-                                Edit
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-rose-500 focus:text-rose-500"
-                            onClick={async () => {
-                                if (confirm("Are you sure you want to delete this income?")) {
-                                    const { deleteIncome } = await import("@/actions/incomes");
-                                    await deleteIncome(income.IncomeID);
-                                }
-                            }}
-                        >
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        cell: ({ row }) => <CellAction income={row.original} categories={categories} projects={projects} peoples={peoples} />
     },
 ];

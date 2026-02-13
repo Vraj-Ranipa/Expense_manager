@@ -37,36 +37,37 @@ export function PeopleDetailHeader({ person }: PeopleDetailHeaderProps) {
                             <ArrowLeft className="h-4 w-4" />
                         </Link>
                     </Button>
-                    
+
                     <div className="flex items-center gap-4">
                         <div className="relative">
-                            <div className="h-10 w-10 rounded-full ring-2 ring-background shadow-md overflow-hidden">
-                                    <Logo 
-                                    path={person.users?.ProfileImage} 
-                                    alt={person.PeopleName} 
-                                    fallbackClassName="h-full w-full bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-500"
-                                    fallbackIcon={<User className="h-5 w-5" />}
+                            <div className="h-12 w-12 rounded-full ring-2 ring-background shadow-md overflow-hidden bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-500 font-bold text-lg">
+                                <Logo
+                                    path={person.users?.ProfileImage}
+                                    alt={person.PeopleName}
+                                    fallbackClassName="h-full w-full flex items-center justify-center"
+                                    fallbackIcon={<User className="h-6 w-6" />}
                                 />
                             </div>
                             <div className={`absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-background flex items-center justify-center ${person.IsActive !== false ? "bg-emerald-500" : "bg-slate-400"}`}>
-                                {/* Status Dot */}
                             </div>
                         </div>
-                        
+
                         <div>
-                            <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center gap-2">
-                                {person.PeopleName}
+                            <div className="flex items-center gap-3">
+                                <h1 className="text-xl font-bold tracking-tight text-foreground">
+                                    {person.PeopleName}
+                                </h1>
                                 {person.IsActive !== false && (
-                                    <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800">
+                                    <Badge variant="secondary" className="text-[10px] px-2 h-5 bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border-transparent">
                                         Active
                                     </Badge>
                                 )}
-                            </h1>
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground mt-0.5">
-                                <span className="font-mono bg-slate-100 dark:bg-slate-800 px-1.5 rounded text-[10px]">#{person.PeopleCode || person.PeopleID}</span>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm text-muted-foreground mt-0.5">
+                                <span className="font-mono bg-muted px-1.5 rounded text-[10px] text-foreground/70">#{person.PeopleCode || person.PeopleID}</span>
                                 {person.MobileNo && (
                                     <>
-                                        <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700" />
+                                        <span className="text-xs">•</span>
                                         <span>{person.MobileNo}</span>
                                     </>
                                 )}

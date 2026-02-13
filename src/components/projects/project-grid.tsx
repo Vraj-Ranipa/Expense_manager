@@ -82,18 +82,18 @@ export function ProjectGrid({ data }: ProjectGridProps) {
             </div>
 
             {filteredData.length === 0 ? (
-                <div className="flex flex-col items-center justify-center p-12 text-center rounded-2xl border border-dashed border-white/10 bg-white/5 mx-auto max-w-lg">
-                    <div className="bg-white/5 p-4 rounded-full mb-4 animate-pulse">
-                        <Search className="h-8 w-8 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center p-12 text-center rounded-2xl border border-dashed border-gray-200 bg-gray-50/50 mx-auto max-w-lg">
+                    <div className="bg-white p-4 rounded-full mb-4 animate-pulse shadow-sm border border-gray-100">
+                        <Search className="h-8 w-8 text-orange-400" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">No projects found</h3>
-                    <p className="text-muted-foreground mt-2">
+                    <h3 className="text-xl font-bold text-gray-900">No projects found</h3>
+                    <p className="text-gray-500 mt-2">
                         We couldn't find any projects matching "{searchQuery}".
                     </p>
                     <Button
                         variant="link"
                         onClick={() => setSearchQuery("")}
-                        className="mt-4 text-sky-400 hover:text-sky-300"
+                        className="mt-4 text-orange-500 hover:text-orange-600"
                     >
                         Clear filters
                     </Button>

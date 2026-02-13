@@ -75,10 +75,10 @@ export function PeopleDialog({ trigger, initialData, open: controlledOpen, onOpe
                         {isEdit ? "Update person details here." : "Fill in the details to add a new person."}
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
                     <div className="space-y-2">
-                        <Label htmlFor="PeopleName">Name</Label>
-                        <Input id="PeopleName" {...form.register("PeopleName")} placeholder="e.g. John Doe" />
+                        <Label htmlFor="PeopleName" className="text-sm font-medium text-foreground/70">Name</Label>
+                        <Input id="PeopleName" {...form.register("PeopleName")} placeholder="e.g. John Doe" className="h-11 transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                         {form.formState.errors.PeopleName && (
                             <p className="text-xs text-red-500">{form.formState.errors.PeopleName.message}</p>
                         )}
@@ -86,15 +86,15 @@ export function PeopleDialog({ trigger, initialData, open: controlledOpen, onOpe
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <Label htmlFor="MobileNo">Mobile</Label>
-                            <Input id="MobileNo" {...form.register("MobileNo")} placeholder="e.g. 1234567890" />
+                            <Label htmlFor="MobileNo" className="text-sm font-medium text-foreground/70">Mobile</Label>
+                            <Input id="MobileNo" {...form.register("MobileNo")} placeholder="e.g. 1234567890" className="h-11 transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                             {form.formState.errors.MobileNo && (
                                 <p className="text-xs text-red-500">{form.formState.errors.MobileNo.message}</p>
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="Email">Email</Label>
-                            <Input id="Email" {...form.register("Email")} placeholder="e.g. john@example.com" />
+                            <Label htmlFor="Email" className="text-sm font-medium text-foreground/70">Email</Label>
+                            <Input id="Email" {...form.register("Email")} placeholder="e.g. john@example.com" className="h-11 transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                             {form.formState.errors.Email && (
                                 <p className="text-xs text-red-500">{form.formState.errors.Email.message}</p>
                             )}
@@ -102,8 +102,8 @@ export function PeopleDialog({ trigger, initialData, open: controlledOpen, onOpe
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="Description">Description</Label>
-                        <Textarea id="Description" {...form.register("Description")} placeholder="Additional details..." />
+                        <Label htmlFor="Description" className="text-sm font-medium text-foreground/70">Description</Label>
+                        <Textarea id="Description" {...form.register("Description")} placeholder="Additional details..." className="resize-none min-h-[100px] transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                     </div>
 
                     <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">

@@ -18,11 +18,11 @@ interface PeopleRelatedTransactionsProps {
 export function PeopleRelatedTransactions({ expenses, incomes }: PeopleRelatedTransactionsProps) {
     return (
         <Card className="h-full border-none shadow-none bg-transparent flex flex-col px-4 sm:px-6">
-            <CardHeader className="px-0 pt-0 shrink-0">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <CardHeader className="px-0 pt-0 shrink-0 pb-4">
+                <div className="flex items-center justify-between">
                     <div className="space-y-1">
                         <CardTitle className="text-lg flex items-center gap-2">
-                            <ArrowRightLeft className="h-5 w-5 text-primary" />
+                            <ArrowRightLeft className="h-5 w-5 text-orange-500" />
                             Transaction History
                         </CardTitle>
                         <CardDescription>All financial interactions with this person</CardDescription>
@@ -34,34 +34,43 @@ export function PeopleRelatedTransactions({ expenses, incomes }: PeopleRelatedTr
             </CardHeader>
             <CardContent className="px-0 flex-1 min-h-0 flex flex-col">
                 <Tabs defaultValue="all" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-3 mb-4 shrink-0 bg-muted/50 p-1 rounded-xl">
-                        <TabsTrigger value="all" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                    <TabsList className="grid w-full grid-cols-3 mb-6 bg-transparent h-auto p-0 gap-4">
+                        <TabsTrigger
+                            value="all"
+                            className="h-10 rounded-md border border-border bg-muted/30 data-[state=active]:bg-foreground data-[state=active]:text-background transition-all font-medium"
+                        >
                             All Activity
                         </TabsTrigger>
-                        <TabsTrigger value="expenses" className="rounded-lg data-[state=active]:text-rose-600 data-[state=active]:bg-rose-50 dark:data-[state=active]:bg-rose-950/30 dark:data-[state=active]:text-rose-400">
+                        <TabsTrigger
+                            value="expenses"
+                            className="h-10 rounded-md border border-transparent bg-muted/30 data-[state=active]:bg-rose-100 data-[state=active]:text-rose-700 data-[state=active]:border-rose-200 transition-all font-medium"
+                        >
                             Paid To ({expenses.length})
                         </TabsTrigger>
-                        <TabsTrigger value="incomes" className="rounded-lg data-[state=active]:text-emerald-600 data-[state=active]:bg-emerald-50 dark:data-[state=active]:bg-emerald-950/30 dark:data-[state=active]:text-emerald-400">
-                             Received ({incomes.length})
+                        <TabsTrigger
+                            value="incomes"
+                            className="h-10 rounded-md border border-transparent bg-muted/30 data-[state=active]:bg-emerald-100 data-[state=active]:text-emerald-700 data-[state=active]:border-emerald-200 transition-all font-medium"
+                        >
+                            Received ({incomes.length})
                         </TabsTrigger>
                     </TabsList>
-                    
+
                     <TabsContent value="all" className="flex-1 min-h-0 mt-0">
-                         <ScrollArea className="h-[350px] md:h-[450px] lg:h-[500px] rounded-md border bg-background w-full">
+                        <ScrollArea className="h-[350px] md:h-[450px] lg:h-[500px] rounded-md border bg-background w-full">
                             <div className="p-4">
                                 {expenses.length === 0 && incomes.length === 0 ? (
                                     <EmptyState />
                                 ) : (
                                     <div className="grid gap-3">
                                         {[...expenses.map(e => ({ ...e, type: 'expense' })), ...incomes.map(i => ({ ...i, type: 'income' }))]
-                                        .sort((a, b) => new Date(b.ExpenseDate || b.IncomeDate).getTime() - new Date(a.ExpenseDate || a.IncomeDate).getTime())
-                                        .map((item) => (
-                                            <TransactionItem key={`${item.type}-${item.ExpenseID || item.IncomeID}`} item={item} />
-                                        ))}
+                                            .sort((a, b) => new Date(b.ExpenseDate || b.IncomeDate).getTime() - new Date(a.ExpenseDate || a.IncomeDate).getTime())
+                                            .map((item) => (
+                                                <TransactionItem key={`${item.type}-${item.ExpenseID || item.IncomeID}`} item={item} />
+                                            ))}
                                     </div>
                                 )}
                             </div>
-                         </ScrollArea>
+                        </ScrollArea>
                     </TabsContent>
 
                     <TabsContent value="expenses" className="flex-1 min-h-0 mt-0">
@@ -79,7 +88,7 @@ export function PeopleRelatedTransactions({ expenses, incomes }: PeopleRelatedTr
                             </div>
                         </ScrollArea>
                     </TabsContent>
-                    
+
                     <TabsContent value="incomes" className="flex-1 min-h-0 mt-0">
                         <ScrollArea className="h-[350px] md:h-[450px] lg:h-[500px] rounded-md border bg-background w-full">
                             <div className="p-4">
@@ -113,8 +122,8 @@ function TransactionItem({ item }: { item: any }) {
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div className={cn(
                         "h-9 w-9 rounded flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300",
-                        isExpense 
-                            ? "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400" 
+                        isExpense
+                            ? "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400"
                             : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
                     )}>
                         {isExpense ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownLeft className="h-5 w-5" />}
@@ -153,16 +162,16 @@ function TransactionItem({ item }: { item: any }) {
 function EmptyState({ type }: { type?: 'expense' | 'income' }) {
     return (
         <div className="flex flex-col items-center justify-center py-12 text-center bg-muted/20 border border-dashed rounded-xl">
-             <div className="h-16 w-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
-                 <FileText className="h-8 w-8 text-muted-foreground/50" />
-             </div>
+            <div className="h-16 w-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
+                <FileText className="h-8 w-8 text-muted-foreground/50" />
+            </div>
             <h3 className="text-sm font-semibold text-foreground">No Transactions Found</h3>
             <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                {type === 'expense' 
-                    ? "You haven't paid anything to this person yet." 
-                    : type === 'income' 
-                    ? "You haven't received anything from this person yet."
-                    : "No financial interactions recorded with this person."}
+                {type === 'expense'
+                    ? "You haven't paid anything to this person yet."
+                    : type === 'income'
+                        ? "You haven't received anything from this person yet."
+                        : "No financial interactions recorded with this person."}
             </p>
         </div>
     )

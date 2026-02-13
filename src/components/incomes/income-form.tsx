@@ -50,19 +50,18 @@ export function IncomeForm({ categories = [], projects = [], peoples = [], initi
     }
 
     return (
-        <Card className="border-none bg-white/5 backdrop-blur-md shadow-2xl shadow-black/20 overflow-hidden relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-            <CardHeader className="border-b border-white/5 pb-6">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">{initialData ? "Edit Income" : "New Income"}</CardTitle>
-                <CardDescription>{initialData ? "Modify the details of this income transaction." : "Record a new income transaction."}</CardDescription>
+        <Card className="border shadow-sm bg-white">
+            <CardHeader className="pb-6 border-b border-border/50">
+                <CardTitle className="text-xl font-semibold text-foreground">{initialData ? "Edit Income" : "New Income"}</CardTitle>
+                <CardDescription className="text-muted-foreground">{initialData ? "Modify the details of this income transaction." : "Record a new income transaction."}</CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
-                <form action={onSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CardContent className="pt-8">
+                <form action={onSubmit} className="space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {/* Amount */}
-                        <div className="space-y-2">
-                            <Label htmlFor="amount">Amount</Label>
-                            <div className="relative">
+                        <div className="space-y-2.5">
+                            <Label htmlFor="amount" className="text-sm font-medium text-foreground/70">Amount</Label>
+                            <div className="relative group">
                                 <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
                                 <Input
                                     id="amount"
@@ -71,21 +70,21 @@ export function IncomeForm({ categories = [], projects = [], peoples = [], initi
                                     step="0.01"
                                     placeholder="0.00"
                                     defaultValue={initialData?.Amount || ""}
-                                    className="pl-7 bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20 transition-all font-mono text-lg"
+                                    className="pl-7 h-11 text-lg font-medium transition-all focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
                                     required
                                 />
                             </div>
                         </div>
 
                         {/* Date */}
-                        <div className="space-y-2 flex flex-col">
-                            <Label>Date</Label>
+                        <div className="space-y-2.5 flex flex-col">
+                            <Label className="text-sm font-medium text-foreground/70">Date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-full pl-3 text-left font-normal bg-black/20 border-white/10 hover:bg-white/5 hover:text-emerald-500 transition-colors",
+                                            "w-full h-11 pl-3 text-left font-normal border-input hover:bg-accent/50 hover:text-accent-foreground transition-colors",
                                             !date && "text-muted-foreground"
                                         )}
                                     >
@@ -112,23 +111,23 @@ export function IncomeForm({ categories = [], projects = [], peoples = [], initi
                         </div>
 
                         {/* Title/Detail */}
-                        <div className="space-y-2 col-span-1 md:col-span-2">
-                            <Label htmlFor="detail">Title</Label>
+                        <div className="space-y-2.5 col-span-1 md:col-span-2">
+                            <Label htmlFor="detail" className="text-sm font-medium text-foreground/70">Title</Label>
                             <Input
                                 id="detail"
                                 name="detail"
                                 placeholder="e.g. Salary, Freelance Work"
                                 defaultValue={initialData?.IncomeDetail || ""}
-                                className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20"
+                                className="h-11 transition-all focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500"
                                 required
                             />
                         </div>
 
                         {/* Category */}
-                        <div className="space-y-2">
-                            <Label htmlFor="categoryId">Category</Label>
+                        <div className="space-y-2.5">
+                            <Label htmlFor="categoryId" className="text-sm font-medium text-foreground/70">Category</Label>
                             <Select name="categoryId" required defaultValue={initialData?.CategoryID ? String(initialData.CategoryID) : undefined}>
-                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20">
+                                <SelectTrigger className="h-11 transition-all focus:ring-emerald-500/20 focus:border-emerald-500">
                                     <SelectValue placeholder="Select a category" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -142,10 +141,10 @@ export function IncomeForm({ categories = [], projects = [], peoples = [], initi
                         </div>
 
                         {/* Project */}
-                        <div className="space-y-2">
-                            <Label htmlFor="projectId">Project (Optional)</Label>
+                        <div className="space-y-2.5">
+                            <Label htmlFor="projectId" className="text-sm font-medium text-foreground/70">Project (Optional)</Label>
                             <Select name="projectId" defaultValue={initialData?.ProjectID ? String(initialData.ProjectID) : "none"}>
-                                <SelectTrigger className="bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20">
+                                <SelectTrigger className="h-11 transition-all focus:ring-emerald-500/20 focus:border-emerald-500">
                                     <SelectValue placeholder="Select a project" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -158,22 +157,20 @@ export function IncomeForm({ categories = [], projects = [], peoples = [], initi
                         </div>
 
                         {/* Description */}
-                        <div className="space-y-2 col-span-1 md:col-span-2">
-                            <Label htmlFor="description">Description (Optional)</Label>
+                        <div className="space-y-2.5 col-span-1 md:col-span-2">
+                            <Label htmlFor="description" className="text-sm font-medium text-foreground/70">Description (Optional)</Label>
                             <Textarea
                                 id="description"
                                 name="description"
                                 placeholder="Add any extra notes here..."
                                 defaultValue={initialData?.Description || ""}
-                                className="resize-none bg-black/20 border-white/10 focus:border-emerald-500/50 focus:ring-emerald-500/20 min-h-[100px]"
+                                className="resize-none min-h-[120px] transition-all focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 p-4"
                             />
                         </div>
                     </div>
 
-                    <Separator className="bg-white/10" />
-
-                    <div className="flex justify-end">
-                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] transition-all text-white">
+                    <div className="flex justify-end pt-4">
+                        <Button type="submit" disabled={isLoading} className="w-full md:w-auto h-11 px-8 bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-emerald-500/50">
                             {isLoading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

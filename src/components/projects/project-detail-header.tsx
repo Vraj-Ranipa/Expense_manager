@@ -45,23 +45,23 @@ export function ProjectDetailHeader({ project }: ProjectDetailHeaderProps) {
                             fallbackClassName="h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold"
                             fallbackIcon={null}
                         />
-                        <div className="space-y-0.5">
-                            <div className="flex items-center gap-2">
-                                <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent line-clamp-1">
+                        <div className="space-y-1">
+                            <div className="flex items-center gap-3">
+                                <h1 className="text-2xl font-bold tracking-tight text-foreground">
                                     {project.ProjectName}
                                 </h1>
-                                <Badge variant="outline" className="font-mono text-xs h-5 px-1.5 bg-background/50 backdrop-blur-sm border-primary/20">
+                                <Badge variant="secondary" className="font-mono text-xs px-2 h-6 border-transparent bg-muted text-muted-foreground">
                                     #{project.ProjectID}
                                 </Badge>
                                 {project.IsActive ? (
-                                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-300 dark:border-emerald-900/30 h-5 text-[10px] px-1.5">Active</Badge>
+                                    <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 border-none px-2 h-6">Active</Badge>
                                 ) : (
-                                    <Badge variant="secondary" className="h-5 text-[10px] px-1.5">Inactive</Badge>
+                                    <Badge variant="secondary" className="px-2 h-6">Inactive</Badge>
                                 )}
                             </div>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                <Clock className="h-3 w-3" />
-                                <span>Created {format(new Date(project.Created), "PPP")}</span>
+                            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                <Clock className="h-4 w-4" />
+                                <span>Created {format(new Date(project.Created), "MMMM do, yyyy")}</span>
                             </div>
                         </div>
                     </div>

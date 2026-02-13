@@ -76,37 +76,37 @@ export function CategoryDialog({ trigger, initialData, open: controlledOpen, onO
                         {isEdit ? "Update category details." : "Create a new category for expenses or incomes."}
                     </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
                     <div className="space-y-2">
-                        <Label htmlFor="CategoryName">Name</Label>
-                        <Input id="CategoryName" {...form.register("CategoryName")} placeholder="e.g. Travel, Salary" />
+                        <Label htmlFor="CategoryName" className="text-sm font-medium text-foreground/70">Name</Label>
+                        <Input id="CategoryName" {...form.register("CategoryName")} placeholder="e.g. Travel, Salary" className="h-11 transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                         {form.formState.errors.CategoryName && (
                             <p className="text-xs text-red-500">{form.formState.errors.CategoryName.message}</p>
                         )}
                     </div>
 
                     <div className="flex gap-4">
-                        <div className="flex items-center space-x-2 border p-3 rounded-lg flex-1">
+                        <div className="flex items-center space-x-3 border-2 border-dashed border-border/60 hover:border-border hover:bg-accent/30 p-4 rounded-lg flex-1 transition-all cursor-pointer" onClick={() => form.setValue("IsExpense", !form.watch("IsExpense"))}>
                             <Checkbox
                                 id="IsExpense"
                                 checked={form.watch("IsExpense")}
                                 onCheckedChange={(c) => form.setValue("IsExpense", !!c)}
                             />
-                            <Label htmlFor="IsExpense" className="cursor-pointer">Expense</Label>
+                            <Label htmlFor="IsExpense" className="cursor-pointer font-medium">Expense</Label>
                         </div>
-                        <div className="flex items-center space-x-2 border p-3 rounded-lg flex-1">
+                        <div className="flex items-center space-x-3 border-2 border-dashed border-border/60 hover:border-border hover:bg-accent/30 p-4 rounded-lg flex-1 transition-all cursor-pointer" onClick={() => form.setValue("IsIncome", !form.watch("IsIncome"))}>
                             <Checkbox
                                 id="IsIncome"
                                 checked={form.watch("IsIncome")}
                                 onCheckedChange={(c) => form.setValue("IsIncome", !!c)}
                             />
-                            <Label htmlFor="IsIncome" className="cursor-pointer">Income</Label>
+                            <Label htmlFor="IsIncome" className="cursor-pointer font-medium">Income</Label>
                         </div>
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="Description">Description</Label>
-                        <Textarea id="Description" {...form.register("Description")} placeholder="Additional details..." />
+                        <Label htmlFor="Description" className="text-sm font-medium text-foreground/70">Description</Label>
+                        <Textarea id="Description" {...form.register("Description")} placeholder="Additional details..." className="resize-none min-h-[100px] transition-all focus-visible:ring-indigo-500/20 focus-visible:border-indigo-500" />
                     </div>
 
                     <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">

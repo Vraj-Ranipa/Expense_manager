@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import { CategoryDetailHeader } from "@/components/categories/category-detail-header"
-import { CategoryFinancials } from "@/components/categories/category-financials"
+
 import { SubCategoryList } from "@/components/categories/sub-category-list"
 import { CategoryRelatedTransactions } from "@/components/categories/category-related-transactions"
 import { CategoryInfo } from "@/components/categories/category-info"
@@ -59,28 +59,28 @@ export default async function CategoryDetailPage({ params }: PageProps) {
             <CategoryDetailHeader category={serializedCategory} />
 
             <main className="flex-1 w-full max-w-[1800px] mx-auto p-4 md:p-6 flex flex-col gap-6">
-                
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
                     {/* Left Column: Sub-Categories (Swapped) - Sticky */}
                     <div className="sticky top-6 h-fit">
-                        <SubCategoryList 
-                            subCategories={serializedCategory.sub_categories} 
-                            expenses={effectiveExpenses} 
-                            incomes={effectiveIncomes} 
+                        <SubCategoryList
+                            subCategories={serializedCategory.sub_categories}
+                            expenses={effectiveExpenses}
+                            incomes={effectiveIncomes}
                         />
                     </div>
 
                     {/* Right Column: Info & Transactions (Swapped) */}
                     <div className="flex flex-col gap-6">
-                        <CategoryInfo 
-                            category={serializedCategory} 
-                            expenses={effectiveExpenses} 
-                            incomes={effectiveIncomes} 
+                        <CategoryInfo
+                            category={serializedCategory}
+                            expenses={effectiveExpenses}
+                            incomes={effectiveIncomes}
                         />
-                        <CategoryRelatedTransactions 
-                            expenses={effectiveExpenses} 
-                            incomes={effectiveIncomes} 
-                            type={categoryType} 
+                        <CategoryRelatedTransactions
+                            expenses={effectiveExpenses}
+                            incomes={effectiveIncomes}
+                            type={categoryType}
                         />
                     </div>
                 </div>

@@ -1,44 +1,42 @@
 import { prisma } from "@/lib/prisma";
-import { ProjectGrid } from "@/components/projects/project-grid";
-import { Button } from "@/components/ui/button";
-import { Plus, Sparkles } from "lucide-react";
-import Link from "next/link";
+import { AddProjectButton } from "@/components/projects/add-project-button";
+import { ProjectsClient } from "@/components/projects/projects-client";
+import { ProjectStats } from "@/components/projects/project-stats";
 
 export default async function ProjectsPage() {
     const data = await prisma.projects.findMany({
         orderBy: {
-            Created: "desc",
-        },
+            ProjectID: 'desc'
+        }
     });
 
+    const totalProjects = data.length;
+    const activeProjects = data.filter(p => p.IsActive).length;
+    const inactiveProjects = totalProjects - activeProjects;
+    const completionRate = totalProjects > 0 ? Math.round((inactiveProjects / totalProjects) * 100) : 0;
+
     return (
-        <div className="flex-1 space-y-8 p-4 md:p-8 pt-6 max-w-7xl mx-auto">
-            {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="space-y-1">
-                    <h2 className="text-3xl font-bold tracking-tight text-white flex items-center gap-2">
-                        All Projects
-                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/20">
-                            <Sparkles className="h-3 w-3 text-sky-400" />
-                        </div>
-                    </h2>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="flex items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-3xl font-bold tracking-tight">Projects</h2>
                     <p className="text-muted-foreground">
-                        Manage your active and completed works.
+                        Manage and track your projects.
                     </p>
                 </div>
-                <Button
-                    asChild
-                    className="bg-primary hover:bg-primary/90 text-white shadow-[0_0_20px_rgba(56,189,248,0.3)] transition-all hover:scale-105"
-                >
-                    <Link href="/admin/projects/new">
-                        <Plus className="mr-2 h-4 w-4" />
-                        New Project
-                    </Link>
-                </Button>
+                <div className="flex items-center space-x-2">
+                    <AddProjectButton />
+                </div>
             </div>
 
-            {/* Main Grid */}
-            <ProjectGrid data={data} />
+            <ProjectStats
+                totalProjects={totalProjects}
+                activeProjects={activeProjects}
+                inactiveProjects={inactiveProjects}
+                completionRate={completionRate}
+            />
+
+            <ProjectsClient data={data} />
         </div>
     );
 }

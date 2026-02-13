@@ -7,7 +7,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-DropdownMenu,
+import {
+    DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
@@ -15,6 +16,8 @@ DropdownMenu,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { ProjectDialog } from "@/components/projects/project-dialog";
+import { useState } from "react";
 
 export type Project = {
     ProjectID: number;
@@ -27,7 +30,61 @@ export type Project = {
     ProjectDetail: string | null;
 };
 
-export const columns: ColumnDef<Project>[] = [
+const CellAction = ({ project }: { project: Project }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <>
+            <ProjectDialog
+                open={open}
+                onOpenChange={setOpen}
+                initialData={project}
+            />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            navigator.clipboard.writeText(project.ProjectID.toString())
+                        }
+                    >
+                        Copy Project ID
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                        <Link href={`/admin/projects/${project.ProjectID}`}>
+                            View Details
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onSelect={(e) => {
+                        e.preventDefault();
+                        setOpen(true);
+                    }}>
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="text-rose-500 focus:text-rose-500"
+                        onClick={async () => {
+                            if (confirm("Are you sure you want to delete this project?")) {
+                                const { deleteProject } = await import("@/actions/projects");
+                                await deleteProject(project.ProjectID);
+                            }
+                        }}
+                    >
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </>
+    );
+};
+
+export const getColumns = (): ColumnDef<Project>[] => [
     {
         id: "select",
         header: ({ table }) => (
@@ -137,51 +194,6 @@ export const columns: ColumnDef<Project>[] = [
     },
     {
         id: "actions",
-        cell: ({ row }) => {
-            const project = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(project.ProjectID.toString())
-                            }
-                        >
-                            Copy Project ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href={`/admin/projects/${project.ProjectID}`}>
-                                View Details
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href={`/admin/projects/${project.ProjectID}/edit`}>
-                                Edit
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-rose-500 focus:text-rose-500"
-                            onClick={async () => {
-                                if (confirm("Are you sure you want to delete this project?")) {
-                                    const { deleteProject } = await import("@/actions/projects");
-                                    await deleteProject(project.ProjectID);
-                                }
-                            }}
-                        >
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
+        cell: ({ row }) => <CellAction project={row.original} />
     },
 ];

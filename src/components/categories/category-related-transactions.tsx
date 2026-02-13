@@ -26,11 +26,11 @@ export function CategoryRelatedTransactions({ expenses, incomes, type = 'mixed' 
 
     return (
         <Card className="h-full border-none shadow-none bg-transparent flex flex-col px-4 sm:px-6">
-            <CardHeader className="px-0 pt-0 shrink-0">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <CardHeader className="px-0 pt-0 shrink-0 pb-4">
+                <div className="flex items-center justify-between">
                     <div className="space-y-1">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                            <ArrowRightLeft className="h-5 w-5 text-primary" />
+                        <CardTitle className="text-lg flex items-center gap-2 font-semibold">
+                            <ArrowRightLeft className="h-5 w-5 text-orange-500" />
                             Transaction History
                         </CardTitle>
                         <CardDescription>
@@ -45,15 +45,30 @@ export function CategoryRelatedTransactions({ expenses, incomes, type = 'mixed' 
             <CardContent className="px-0 flex-1 min-h-0 flex flex-col">
                 <Tabs defaultValue={defaultTab} className="w-full h-full flex flex-col">
                     {type === 'mixed' && (
-                        <div className="overflow-x-auto pb-2 sm:pb-0">
-                            <TabsList className="w-full justify-start sm:w-auto grid grid-cols-3">
-                                <TabsTrigger value="all">All</TabsTrigger>
-                                <TabsTrigger value="expenses">Expenses</TabsTrigger>
-                                <TabsTrigger value="incomes">Incomes</TabsTrigger>
+                        <div className="overflow-x-auto pb-6 sm:pb-6">
+                            <TabsList className="w-full justify-start sm:w-auto flex items-center gap-3 bg-transparent p-0">
+                                <TabsTrigger
+                                    value="all"
+                                    className="h-9 px-4 rounded-full border border-border bg-background data-[state=active]:bg-foreground data-[state=active]:text-background transition-all font-medium text-xs"
+                                >
+                                    All Activity
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="expenses"
+                                    className="h-9 px-4 rounded-full border border-transparent bg-rose-50/50 text-rose-700 data-[state=active]:bg-rose-100 data-[state=active]:border-rose-200 transition-all font-medium text-xs"
+                                >
+                                    Paid To ({expenses.length})
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="incomes"
+                                    className="h-9 px-4 rounded-full border border-transparent bg-emerald-50/50 text-emerald-700 data-[state=active]:bg-emerald-100 data-[state=active]:border-emerald-200 transition-all font-medium text-xs"
+                                >
+                                    Received ({incomes.length})
+                                </TabsTrigger>
                             </TabsList>
                         </div>
                     )}
-                    
+
                     <TabsContent value="all" className="flex-1 min-h-0 mt-2 sm:mt-4">
                         <ScrollArea className="h-[350px] md:h-[450px] lg:h-[500px] rounded-md border bg-background w-full">
                             <div className="p-4 space-y-4">
@@ -67,7 +82,7 @@ export function CategoryRelatedTransactions({ expenses, incomes, type = 'mixed' 
                             </div>
                         </ScrollArea>
                     </TabsContent>
-                    
+
                     <TabsContent value="expenses" className="flex-1 min-h-0 mt-2 sm:mt-4">
                         <ScrollArea className="h-[350px] md:h-[450px] lg:h-[500px] rounded-md border bg-background w-full">
                             <div className="p-4 space-y-4">
@@ -113,8 +128,8 @@ function TransactionItem({ item }: { item: any }) {
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div className={cn(
                         "h-9 w-9 rounded flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300",
-                        isExpense 
-                            ? "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400" 
+                        isExpense
+                            ? "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400"
                             : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"
                     )}>
                         {isExpense ? <ArrowUpRight className="h-5 w-5" /> : <ArrowDownLeft className="h-5 w-5" />}
@@ -147,16 +162,16 @@ function TransactionItem({ item }: { item: any }) {
 function EmptyState({ type }: { type?: 'expense' | 'income' }) {
     return (
         <div className="flex flex-col items-center justify-center py-12 text-center bg-muted/20 border border-dashed rounded-xl">
-             <div className="h-16 w-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
-                 <FileText className="h-8 w-8 text-muted-foreground/50" />
-             </div>
+            <div className="h-16 w-16 bg-muted/50 rounded-full flex items-center justify-center mb-4">
+                <FileText className="h-8 w-8 text-muted-foreground/50" />
+            </div>
             <h3 className="text-sm font-semibold text-foreground">No Transactions</h3>
             <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-                {type === 'expense' 
-                    ? "No expenses in this category." 
-                    : type === 'income' 
-                    ? "No income in this category."
-                    : "No transactions found in this category."}
+                {type === 'expense'
+                    ? "No expenses in this category."
+                    : type === 'income'
+                        ? "No income in this category."
+                        : "No transactions found in this category."}
             </p>
         </div>
     )
