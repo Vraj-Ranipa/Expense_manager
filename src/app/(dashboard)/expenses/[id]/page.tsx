@@ -26,5 +26,18 @@ export default async function ExpenseDetailPage({ params }: { params: Promise<{ 
         return notFound();
     }
 
-    return <ExpenseDetailView expense={expense} />;
+    const serializedExpense = {
+        ...expense,
+        Amount: expense.Amount.toNumber(),
+        categories: expense.categories ? {
+            ...expense.categories,
+            Sequence: expense.categories.Sequence ? expense.categories.Sequence.toNumber() : null
+        } : null,
+        sub_categories: expense.sub_categories ? {
+            ...expense.sub_categories,
+            Sequence: expense.sub_categories.Sequence ? expense.sub_categories.Sequence.toNumber() : null
+        } : null
+    };
+
+    return <ExpenseDetailView expense={serializedExpense} />;
 }

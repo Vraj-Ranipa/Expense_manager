@@ -1,25 +1,24 @@
 'use client';
 
 import { useActionState } from 'react';
-import { login, AuthState } from '@/actions/auth';
+import { signup, SignupState } from '@/actions/signup';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
-const initialState: AuthState = {
+const initialState: SignupState = {
     message: '',
     errors: {},
 };
 
-export default function LoginPage() {
-    const [state, action, pending] = useActionState(login, initialState);
+export default function SignupPage() {
+    const [state, action, pending] = useActionState(signup, initialState);
 
     return (
-        <div className="flex h-screen w-full items-center justify-center bg-background p-4 relative overflow-hidden">
+        <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 py-12 relative overflow-hidden">
 
             {/* Ambient Background Elements */}
             <div className="absolute inset-0 pointer-events-none">
@@ -27,20 +26,35 @@ export default function LoginPage() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
             </div>
 
-            <Card className="w-full max-w-sm z-10 border-border shadow-2xl">
+            <Card className="w-full max-w-md z-10 border-border shadow-2xl">
                 <CardHeader className="space-y-1 text-center">
                     <div className="flex justify-center mb-4">
                         <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center shadow-lg">
                             <span className="text-white font-bold text-xl">EM</span>
                         </div>
                     </div>
-                    <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+                    <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
                     <CardDescription>
-                        Enter your credentials to access the account
+                        Enter your details below to get started
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form action={action} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="username">Full Name</Label>
+                            <Input
+                                id="username"
+                                name="username"
+                                type="text"
+                                placeholder="John Doe"
+                                required
+                                className="bg-background"
+                            />
+                            {state?.errors?.username && (
+                                <p className="text-xs text-destructive">{state.errors.username[0]}</p>
+                            )}
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
@@ -55,6 +69,22 @@ export default function LoginPage() {
                                 <p className="text-xs text-destructive">{state.errors.email[0]}</p>
                             )}
                         </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="phone">Phone Number</Label>
+                            <Input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                placeholder="+1 (555) 000-0000"
+                                required
+                                className="bg-background"
+                            />
+                            {state?.errors?.phone && (
+                                <p className="text-xs text-destructive">{state.errors.phone[0]}</p>
+                            )}
+                        </div>
+
                         <div className="space-y-2">
                             <Label htmlFor="password">Password</Label>
                             <Input
@@ -76,23 +106,23 @@ export default function LoginPage() {
                             </div>
                         )}
 
-                        <Button type="submit" className="w-full font-bold" disabled={pending}>
+                        <Button type="submit" className="w-full font-bold mt-2" disabled={pending}>
                             {pending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Signing in...
+                                    Creating account...
                                 </>
                             ) : (
-                                "Sign In"
+                                "Sign Up"
                             )}
                         </Button>
                     </form>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2 text-center text-sm text-muted-foreground">
                     <p>
-                        Don't have an account?{" "}
-                        <Link href="/signup" className="font-semibold text-primary hover:underline">
-                            Sign up
+                        Already have an account?{" "}
+                        <Link href="/login" className="font-semibold text-primary hover:underline">
+                            Sign in
                         </Link>
                     </p>
                 </CardFooter>

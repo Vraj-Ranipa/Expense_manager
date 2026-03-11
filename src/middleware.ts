@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { verifyToken } from '@/lib/auth';
 
-const protectedRoutes = ['/dashboard', '/expenses', '/incomes', '/admin'];
+const protectedRoutes = ['/dashboard', '/expenses', '/incomes', '/admin', '/reports'];
 const adminRoutes = ['/admin'];
 const publicRoutes = ['/login', '/signup', '/api/auth'];
 

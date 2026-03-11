@@ -104,7 +104,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                                                 <Calendar className="h-3 w-3" /> End Date
                                             </div>
                                             <p className="font-semibold text-sm pl-5">
-                                                {serializedProject.ProjectEndDate ? format(new Date(serializedProject.ProjectEndDate), "Ongoing") : "Ongoing"}
+                                                {serializedProject.ProjectEndDate ? format(new Date(serializedProject.ProjectEndDate), "MMMM do, yyyy") : "Ongoing"}
                                             </p>
                                         </div>
                                     </div>

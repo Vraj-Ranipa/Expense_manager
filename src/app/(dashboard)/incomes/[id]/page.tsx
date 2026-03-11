@@ -26,5 +26,18 @@ export default async function IncomeDetailPage({ params }: { params: Promise<{ i
         return notFound();
     }
 
-    return <IncomeDetailView income={income} />;
+    const serializedIncome = {
+        ...income,
+        Amount: income.Amount.toNumber(),
+        categories: income.categories ? {
+            ...income.categories,
+            Sequence: income.categories.Sequence ? income.categories.Sequence.toNumber() : null
+        } : null,
+        sub_categories: income.sub_categories ? {
+            ...income.sub_categories,
+            Sequence: income.sub_categories.Sequence ? income.sub_categories.Sequence.toNumber() : null
+        } : null
+    };
+
+    return <IncomeDetailView income={serializedIncome} />;
 }
